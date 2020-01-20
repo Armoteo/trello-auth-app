@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from "react";
-import { setToLocaStorage } from '../../utils'
+import { setToLocaStorage, getFromLocalStorage } from '../../utils'
 
+const { REACT_APP_API_KEY, REACT_APP_APP_NAME, REACT_APP_APP_URL, REACT_APP_APP_SCOPE } = process.env
 const TOKEN_STORAGE_KEY = 'TOKEN';
 interface Board {
     id: string;
@@ -26,28 +27,45 @@ export class App extends React.Component<any, AppState> {
     }
 
     private async getTokken() {
-
+        const token = await getFromLocalStorage(TOKEN_STORAGE_KEY);
+        return token;
     }
 
-    public componentDidMount() {
-        const token = window.location.hash.split('=')[1];
-        if (token) {
-            this.setToken(token);
-        }
+
+    private getTokenFromURL() {
+        return window.location.hash.split('=')[1];;
+    }
+
+    private isLogged() {
+        return !!this.state.token;
+    }
+
+    private renderHeader() {
+        const requestUrl = `https://trello.com/1/authorize?return_url=${REACT_APP_APP_URL}&expiration=1day&name=${REACT_APP_APP_NAME}&scope=${REACT_APP_APP_SCOPE}&response_type=token&key=${REACT_APP_API_KEY}`;
+        return (
+            <header>
+                {this.isLogged() ? 'Hello user' : <a href={requestUrl}>Login with trello account</a>}
+            </header>
+        )
+    }
+
+    private renderContent() {
+        return (
+            this.isLogged() ? <h2>Some secret content</h2> : 'Please log in'
+        )
+    }
+
+    public async componentDidMount() {
+        // const savedToken = await this.getTokken();
+        const newToken = this.getTokenFromURL();
+        this.setToken(newToken);
     }
 
     public render() {
-        const redirectUrl = 'http://localhost:3000';
-        const scope = ['read', 'write', 'account'];
-        const appName = 'Group_Armoteo';
-        const key = '76177928466605a771c8a8bf3c1642a9';
-        const requestUrl = `https://trello.com/1/authorize?return_url=${redirectUrl}&expiration=1day&name=${appName}&scope=${scope.join(',')}&response_type=token&key=${key}`;
         return (
             <div>
-                <header>
-                    <a href={requestUrl}>Login with trello account</a>
-                </header>
-                <h2>Please login</h2>
+                {this.renderHeader()}
+                {this.renderContent()}
             </div>
         )
     }
