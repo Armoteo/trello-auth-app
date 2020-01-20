@@ -15,49 +15,41 @@ interface AppState {
     token: string;
     board: Array<Board>;
 }
-export class App extends React.Component<any, AppState> {
-    public state = {
+export class App extends React.Component {
+    public state:AppState = {
         token: '',
         board: []
     }
 
+    //save token in local storage
     private async setToken(token: string) {
         this.setState({ token });
         await setToLocaStorage(TOKEN_STORAGE_KEY, token);
     }
-
+//geting token in local storage
     private async getTokken() {
         const token = await getFromLocalStorage(TOKEN_STORAGE_KEY);
         return token;
-    }
-
-
-    private getTokenFromURL() {
-        return window.location.hash.split('=')[1];;
-    }
-
-    private isLogged() {
-        return !!this.state.token;
     }
 
     private renderHeader() {
         const requestUrl = `https://trello.com/1/authorize?return_url=${REACT_APP_APP_URL}&expiration=1day&name=${REACT_APP_APP_NAME}&scope=${REACT_APP_APP_SCOPE}&response_type=token&key=${REACT_APP_API_KEY}`;
         return (
             <header>
-                {this.isLogged() ? 'Hello user' : <a href={requestUrl}>Login with trello account</a>}
+                {this.state.token ? 'Hello user' : <a href={requestUrl}>Login with trello account</a>}
             </header>
         )
     }
 
     private renderContent() {
         return (
-            this.isLogged() ? <h2>Some secret content</h2> : 'Please log in'
+            this.state.token ? <h2>Some secret content</h2> : 'Please log in'
         )
     }
 
+    //geting token from request location
     public async componentDidMount() {
-        // const savedToken = await this.getTokken();
-        const newToken = this.getTokenFromURL();
+        const newToken = window.location.hash.split('=')[1];
         this.setToken(newToken);
     }
 
