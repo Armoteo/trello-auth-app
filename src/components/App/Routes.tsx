@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Login } from "../Login";
 import { Dashboard } from "../Dashboard";
-import { Redirect } from 'react-router-dom';
+import { Redirect, RouteChildrenProps } from 'react-router-dom';
+import { NotFound } from '../NotFound';
 
 
 interface AppRoute {
@@ -22,13 +23,17 @@ export const routes: Array<AppRoute> = [
     {
         path: "/dashboard",
         title: 'Dashboard',
-        render: (props: any) => <Dashboard {...props} />,
+        render: (props: RouteChildrenProps) => <Dashboard {...props} />
     },
     {
         path: "/",
         isHidden: true,
         exact: true,
-        render: () => <Redirect to="/" />,
-
+        render: () => <Redirect to="/" />
+    },
+    {
+        path: "/404",
+        isHidden: true,
+        render: (props: RouteChildrenProps) => <NotFound {...props}/>
     }
 ]
