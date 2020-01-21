@@ -33,10 +33,10 @@ export class App extends React.Component {
 
     private async  getBoard() {
         const token = this.getToken();
-        const board = await fetch(`https://api.trello.com/1/members/me/boards?key=${REACT_APP_API_KEY}&token=${token}`);
-        if(board.ok){
-            let json = await board.json();
-            console.log(json);
+        const boardRequest = await fetch(`https://api.trello.com/1/members/me/boards?key=${REACT_APP_API_KEY}&token=${token}`);
+        if(boardRequest.ok){
+            let board = await boardRequest.json();
+            this.setState({board});
         }
     }
 
@@ -50,7 +50,6 @@ export class App extends React.Component {
     }
 
     private renderContent() {
-        this.getBoard();
         return (
             this.state.token ? <h2>Some secret content</h2> : 'Please log in'
         )
