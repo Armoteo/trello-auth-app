@@ -1,8 +1,9 @@
 import * as React from "react";
 import { setToLocaStorage, getFromLocalStorage } from '../../utils'
+import { Route, Link, Switch, Redirect } from "react-router-dom";
+import { routes } from "./Routes";
 
 
-const { REACT_APP_API_KEY, REACT_APP_APP_NAME, REACT_APP_APP_URL, REACT_APP_APP_SCOPE } = process.env
 const TOKEN_STORAGE_KEY = 'TOKEN';
 interface Board {
     id: string;
@@ -23,35 +24,46 @@ export class App extends React.Component {
 
     //save token in local storage
     private async setToken(token: string) {
-       await this.setState({ token : token });
+        await this.setState({ token: token });
         await setToLocaStorage(TOKEN_STORAGE_KEY, token);
     }
     //getting token in local storage
-    private   getToken() {
-        return  getFromLocalStorage(TOKEN_STORAGE_KEY);
+    private getToken() {
+        return getFromLocalStorage(TOKEN_STORAGE_KEY);
     }
 
-    private async  getBoard() {
-        const token = this.getToken();
-        const boardRequest = await fetch(`https://api.trello.com/1/members/me/boards?key=${REACT_APP_API_KEY}&token=${token}`);
-        if(boardRequest.ok){
-            let board = await boardRequest.json();
-            this.setState({board});
-        }
-    }
+    // private async  getBoard() {
+    //     const token = this.getToken();
+    //     const boardRequest = await fetch(`https://api.trello.com/1/members/me/boards?key=${REACT_APP_API_KEY}&token=${token}`);
+    //     if (boardRequest.ok) {
+    //         let board = await boardRequest.json();
+    //         this.setState({ board });
+    //     }
+    // }
 
     private renderHeader() {
-        const requestUrl = `https://trello.com/1/authorize?return_url=${REACT_APP_APP_URL}&expiration=1day&name=${REACT_APP_APP_NAME}&scope=${REACT_APP_APP_SCOPE}&response_type=token&key=${REACT_APP_API_KEY}`;
         return (
             <header>
-                {this.state.token ? 'Hello user' : <a href={requestUrl}>Login with trello account</a>}
+                {routes.map((route: any, i: number) =>
+                    <Link key={i} to={route.path}>{route.title}</Link>
+                )}
             </header>
         )
     }
 
     private renderContent() {
         return (
-            this.state.token ? <h2>Some secret content</h2> : 'Please log in'
+            <main>
+                < Switch>
+                    {routes.map((route: any, i: number) =>
+                        <Route key={i}
+                            exact={route.exact}
+                            path={route.path}
+                            render={(props) => route.render({ ...props, token: this.state.token })} />
+                    )}
+                    <Redirect to="/login" />
+                </ Switch>
+            </main>
         )
     }
 
