@@ -30,9 +30,10 @@ export class App extends React.Component<any, AppState> {
     //save token in local storage
     private setToken = (token: string) => {
         this.setState({token: token});
+        
     };
 
-    private get isLoggedIn() {
+    private  isLoggedIn() {
         return !!this.state.token;
     }
 
@@ -68,13 +69,14 @@ export class App extends React.Component<any, AppState> {
                 exact={route.exact}
                 path={route.path}
                 render={route.render}
-                isAuthenticated={this.isLoggedIn}/>
+                isAuthenticated={this.isLoggedIn()}/>
         } else {
            return <Route
                 key={i}
                 exact={route.exact}
                 path={route.path}
-                render={(props) => route.render({...props})}/>
+                render={(props) => route.render({...props})}
+                />
 
         }
     };

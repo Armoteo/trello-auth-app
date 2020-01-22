@@ -1,27 +1,29 @@
-import React, {FunctionComponent} from "react";
-import {Route, Redirect, RouteProps, RouteComponentProps} from 'react-router-dom';
+import React, { FunctionComponent, ReactElement } from "react";
+import { Route, Redirect, RouteProps, RouteComponentProps } from 'react-router-dom';
 
 interface ProtectedRouteProps extends RouteProps {
-    isAuthenticates: boolean;
+  isAuthenticated: boolean;
 }
-const ProtectedRoute:FunctionComponent<ProtectedRouteProps> = ({render, isAuthenticates, ...rest})=> {
-    return (
-        <Route
-            {...rest}
-            render={(routeComProps:RouteComponentProps) =>
-                isAuthenticates ? (
-                    render!(routeComProps)
-                ) : (
-                    <Redirect
-                        to={{
-                            pathname: "/login",
-                            state: {from: routeComProps.location}
-                        }}
-                    />
-                )
-            }
-        />
-    );
-};
 
-export {ProtectedRoute};
+const ProtectedRoute: FunctionComponent<ProtectedRouteProps> = ({ isAuthenticated, render, ...rest }: ProtectedRouteProps, ) => {
+  return (
+    <Route
+      {...rest}
+      render={
+        (routeCompProps: RouteComponentProps) =>
+          isAuthenticated ? (
+            render!(routeCompProps)
+          ) : (
+              <Redirect
+                to={{
+                  pathname: "/login",
+                  state: { from: routeCompProps.location }
+                }}
+              />
+            )
+      }
+    />
+  );
+}
+
+export { ProtectedRoute };
