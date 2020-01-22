@@ -10,4 +10,14 @@ export const OAuth: FunctionComponent<OAuthProps> = ({location: {hash}, onSetTok
   const token = hash.split('=')[1];
   onSetToken(token);
   return <Redirect to="/dashboard"/>
-}
+};
+
+
+
+
+// export const OAuth: FunctionComponent<OAuthProps> = ({ location: { hash }, onSetToken }: OAuthProps) => {
+//   const token = hash.split('=')[1];
+//   debugger;
+//   onSetToken(token);
+//   return <Redirect to={ROUTES_URLS.DASHBOARD} />
+// }

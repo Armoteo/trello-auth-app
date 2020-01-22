@@ -5,12 +5,13 @@ import { Redirect, RouteChildrenProps } from 'react-router-dom';
 import { NotFound } from '../NotFound';
 
 
-interface AppRoute {
+export interface AppRoute {
     path: string;
     render: (props: any) => any;
     title?: string;
     isHidden?: boolean;
-    exact?: boolean
+    exact?: boolean;
+    isProtected?: boolean;
 }
 
 
@@ -23,17 +24,18 @@ export const routes: Array<AppRoute> = [
     {
         path: "/dashboard",
         title: 'Dashboard',
+        isProtected:true,
         render: (props: RouteChildrenProps) => <Dashboard {...props} />
     },
     {
         path: "/",
         isHidden: true,
         exact: true,
-        render: () => <Redirect to="/" />
+        render: () => <Redirect to="/login" />
     },
     {
         path: "/404",
         isHidden: true,
         render: (props: RouteChildrenProps) => <NotFound {...props}/>
     }
-]
+];
