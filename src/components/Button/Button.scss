@@ -1,13 +1,15 @@
 .Button{
     display: inline-block;
+    color:#000;
     border-radius: 4px;
-    color: #000;
     padding: 10px 10px;
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 1em;
     background:transparent;
-    &:hover{
-      cursor: pointer;
-    };
+    text-decoration: none;
+
+    &:hover {
+      color:#50504e;
+    }
   }
