@@ -4,33 +4,44 @@ import { MainPage } from "../MainPage";
 import { RouteChildrenProps, Redirect } from "react-router-dom";
 import { NotFound } from "../NotFound";
 
+
+export enum ROUTES_URLS {
+    HOME = '/',
+    LOGIN = '/login',
+    MAIN_PAGE = '/main',
+    OAUTH = '/oauth',
+    NOT_FOUND = '/404'
+}
+
 export interface AppRoute {
-    path: string,
+    path: ROUTES_URLS,
     render: (props: any) => any,
     title?: string,
     exact?: boolean,
-    isHidden?: boolean
+    isHidden?: boolean,
+    isProtected?: boolean
 }
 
 export const routes: Array<AppRoute> = [
     {
-        path: "/login",
+        path: ROUTES_URLS.HOME,
         render: (props: any) => <AutorithationForm {...props} />,
         title: 'Login'
     },
     {
-        path: "/main",
+        path: ROUTES_URLS.MAIN_PAGE,
+        isProtected: true,
         render: (props: RouteChildrenProps) => <MainPage {...props} />,
         title: 'MainPage'
     },
     {
-        path: '/',
+        path: ROUTES_URLS.HOME,
         exact: true,
         isHidden: true,
-        render: () => <Redirect to="/login" />,
+        render: () => <Redirect to={ROUTES_URLS.LOGIN} />,
     },
     {
-        path: '/404',
+        path: ROUTES_URLS.NOT_FOUND,
         isHidden: true,
         render: (props: RouteChildrenProps) => <NotFound {...props} />,
     }
