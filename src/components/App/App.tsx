@@ -7,8 +7,8 @@ import { ProtectedRoute } from "../ProtectedRoute";
 import { setToLocalStorage, getFromLocalStorage } from "../../utils";
 
 
-const { REACT_APP_API_KEY } = process.env
 const TOKEN_STRORAGE_KEY = 'TOKEN';
+const { REACT_APP_API_KEY } = process.env;
 
 interface Board {
     id: string;
@@ -31,11 +31,6 @@ const INITIAL_STATE = {
     boards: []
 }
 
-interface CustomToken {
-    token: string, expireIn: number;
-}
-
-
 class App extends React.Component<AppProps, AppState> {
 
     public state = INITIAL_STATE;
@@ -44,12 +39,13 @@ class App extends React.Component<AppProps, AppState> {
         this.getTokken();
     }
 
-
     private async getTokken() {
+        console.log(this.state.token);
         if (this.state.token) {
             return;
         }
         const token = getFromLocalStorage(TOKEN_STRORAGE_KEY);
+        console.log(token);
         if (!token) {
             return this.navigateToLogin();
         }
@@ -82,13 +78,13 @@ class App extends React.Component<AppProps, AppState> {
     //save our tokken in localstorage
     private saveToken = (token: string) => {
         this.setState({ token });
-        setToLocalStorage(TOKEN_STRORAGE_KEY, { token, expireIn: Date.now() });
+        setToLocalStorage(TOKEN_STRORAGE_KEY, token);
     }
 
-    private logOut = () => {
-        this.setState(INITIAL_STATE);
-        this.navigateToLogin();
-    }
+    // private logOut = () => {
+    //     this.setState(INITIAL_STATE);
+    //     this.navigateToLogin();
+    // }
 
     //check tokken
     private get checkLoggin() {

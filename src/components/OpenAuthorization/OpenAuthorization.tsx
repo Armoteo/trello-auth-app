@@ -8,6 +8,7 @@ interface OAuthProps extends RouteChildrenProps {
 
 export const OpenAuthorization: FunctionComponent<OAuthProps> = (props: OAuthProps) => {
     const token = window.location.hash.split('=')[1];
+    console.log(token);
     props.onSaveToken(token);
     return <Redirect to={ROUTES_URLS.MAIN_PAGE} />
 }

@@ -24,7 +24,7 @@ export interface AppRoute {
 
 export const routes: Array<AppRoute> = [
     {
-        path: ROUTES_URLS.HOME,
+        path: ROUTES_URLS.LOGIN,
         render: (props: any) => <AutorithationForm {...props} />,
         title: 'Login'
     },
