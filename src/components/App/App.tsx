@@ -10,16 +10,16 @@ import { setToLocalStorage, getFromLocalStorage } from "../../utils";
 const TOKEN_STRORAGE_KEY = 'TOKEN';
 const { REACT_APP_API_KEY } = process.env;
 
-interface Board {
-    id: string;
-    name: string;
-    pinned: boolean;
-    desc?: string;
-}
+// interface Board {
+//     id: string;
+//     name: string;
+//     pinned: boolean;
+//     desc?: string;
+// }
 
 interface AppState {
     token: string;
-    boards: Array<Board>;
+    // boards: Array<Board>;
     userProfile: any;
 }
 
@@ -28,7 +28,7 @@ interface AppProps extends RouteComponentProps { }
 const INITIAL_STATE = {
     token: '',
     userProfile: undefined,
-    boards: []
+    // boards: []
 }
 
 class App extends React.Component<AppProps, AppState> {
@@ -40,12 +40,10 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     private async getTokken() {
-        console.log(this.state.token);
         if (this.state.token) {
             return;
         }
         const token = getFromLocalStorage(TOKEN_STRORAGE_KEY);
-        console.log(token);
         if (!token) {
             return this.navigateToLogin();
         }
@@ -109,15 +107,16 @@ class App extends React.Component<AppProps, AppState> {
                 exact={route.exact}
                 key={index}
                 path={route.path}
-                render={route.render}
+                render={(props: any) => route.render({ ...props })}
                 isAuthenticated={this.checkLoggin}
+
             />
         } else {
             return <Route
                 exact={route.exact}
                 key={index}
                 path={route.path}
-                render={(props) => route.render({ ...props })} />
+                render={(props: RouteChildrenProps) => route.render({ ...props })} />
         }
     }
 

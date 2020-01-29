@@ -19,7 +19,7 @@ export interface AppRoute {
     title?: string,
     exact?: boolean,
     isHidden?: boolean,
-    isProtected?: boolean
+    isProtected?: boolean,
 }
 
 export const routes: Array<AppRoute> = [
@@ -31,7 +31,7 @@ export const routes: Array<AppRoute> = [
     {
         path: ROUTES_URLS.MAIN_PAGE,
         isProtected: true,
-        render: (props: RouteChildrenProps) => <MainPage {...props} />,
+        render: (props: RouteChildrenProps) => <MainPage  {...props} />,
         title: 'MainPage'
     },
     {
