@@ -37,9 +37,9 @@ export class MainPage extends React.Component<MainPageProps> {
     }
 
     //go to  previous page
-    goBack = () => {
-        this.props.history.goBack();
-    }
+    // goBack = () => {
+    //     this.props.history.goBack();
+    // }
 
     //save our tokken in localstorage
     private getToken = () => {

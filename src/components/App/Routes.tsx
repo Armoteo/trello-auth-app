@@ -3,12 +3,14 @@ import { AutorithationForm } from "../Authorization-form";
 import { MainPage } from "../MainPage";
 import { RouteChildrenProps, Redirect } from "react-router-dom";
 import { NotFound } from "../NotFound";
+import { ListBoard } from "../ListBoard";
 
 
 export enum ROUTES_URLS {
     HOME = '/',
     LOGIN = '/login',
     MAIN_PAGE = '/main',
+    LIST_PAGE = '/list',
     OAUTH = '/oauth',
     NOT_FOUND = '/404'
 }
@@ -20,6 +22,7 @@ export interface AppRoute {
     exact?: boolean,
     isHidden?: boolean,
     isProtected?: boolean,
+    id?: string
 }
 
 export const routes: Array<AppRoute> = [
@@ -33,6 +36,12 @@ export const routes: Array<AppRoute> = [
         isProtected: true,
         render: (props: RouteChildrenProps) => <MainPage  {...props} />,
         title: 'MainPage'
+    },
+    {
+        path: ROUTES_URLS.LIST_PAGE,
+        isProtected: true,
+        render: (props: RouteChildrenProps) => <ListBoard  {...props} />,
+        title: 'ListPage'
     },
     {
         path: ROUTES_URLS.HOME,
