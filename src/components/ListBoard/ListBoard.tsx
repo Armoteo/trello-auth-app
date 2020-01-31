@@ -51,11 +51,11 @@ export class ListBoard extends React.Component<ListPageProps>{
         const response = await fetch(url);
         if (response.ok === true && response.status === 200) {
             const parsResponse = await response.json();
+            // eslint-disable-next-line array-callback-return
             parsResponse.map((item: any) => {
                 if (item.id === idBoard) {
                     this.setState({ listCard: item.lists });
                 }
-
             });
         }
     }
