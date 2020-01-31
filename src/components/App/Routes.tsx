@@ -4,6 +4,7 @@ import { MainPage } from "../MainPage";
 import { RouteChildrenProps, Redirect } from "react-router-dom";
 import { NotFound } from "../NotFound";
 import { ListBoard } from "../ListBoard";
+import { NavigationBar } from "../NavigationBar";
 
 
 export enum ROUTES_URLS {
@@ -11,6 +12,7 @@ export enum ROUTES_URLS {
     LOGIN = '/login',
     MAIN_PAGE = '/main',
     LIST_PAGE = '/list',
+    PROFILE_PAGE = '/profile',
     OAUTH = '/oauth',
     NOT_FOUND = '/404'
 }
@@ -34,13 +36,21 @@ export const routes: Array<AppRoute> = [
     {
         path: ROUTES_URLS.MAIN_PAGE,
         isProtected: true,
-        render: (props: RouteChildrenProps) => <MainPage  {...props} />,
+        render: (props: RouteChildrenProps) =>
+            <div>
+                <NavigationBar {...props} />
+                <MainPage  {...props} />
+            </div>,
         title: 'MainPage'
     },
     {
         path: ROUTES_URLS.LIST_PAGE,
         isProtected: true,
-        render: (props: RouteChildrenProps) => <ListBoard  {...props} />,
+        render: (props: RouteChildrenProps) =>
+            <div>
+                <NavigationBar {...props} />
+                <ListBoard  {...props} />
+            </div>,
         title: 'ListPage'
     },
     {

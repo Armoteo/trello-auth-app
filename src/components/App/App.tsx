@@ -79,10 +79,10 @@ class App extends React.Component<AppProps, AppState> {
         setToLocalStorage(TOKEN_STRORAGE_KEY, token);
     }
 
-    // private logOut = () => {
-    //     this.setState(INITIAL_STATE);
-    //     this.navigateToLogin();
-    // }
+    private logOut = () => {
+        this.setState(INITIAL_STATE);
+        this.navigateToLogin();
+    }
 
     //check tokken
     private get checkLoggin() {
@@ -107,9 +107,8 @@ class App extends React.Component<AppProps, AppState> {
                 exact={route.exact}
                 key={index}
                 path={route.path}
-                render={(props: any) => route.render({ ...props })}
+                render={(props: any) => route.render({logout:this.logOut, ...props })}
                 isAuthenticated={this.checkLoggin}
-
             />
         } else {
             return <Route
