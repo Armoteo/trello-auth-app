@@ -5,6 +5,7 @@ import { RouteChildrenProps, Redirect } from "react-router-dom";
 import { NotFound } from "../NotFound";
 import { ListBoard } from "../ListBoard";
 import { NavigationBar } from "../NavigationBar";
+import { ProfilePage } from "../ProfilePage";
 
 
 export enum ROUTES_URLS {
@@ -45,11 +46,20 @@ export const routes: Array<AppRoute> = [
     },
     {
         path: ROUTES_URLS.LIST_PAGE,
-        isProtected: true,
         render: (props: RouteChildrenProps) =>
             <div>
                 <NavigationBar {...props} />
                 <ListBoard  {...props} />
+            </div>,
+        title: 'ListPage'
+    },
+    {
+        path: ROUTES_URLS.PROFILE_PAGE,
+        isProtected: true,
+        render: (props: RouteChildrenProps) =>
+            <div>
+                <NavigationBar {...props} />
+                <ProfilePage  {...props} />
             </div>,
         title: 'ListPage'
     },

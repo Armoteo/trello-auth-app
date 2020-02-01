@@ -1,8 +1,10 @@
 .App{
-
+   
 }
 
 .ContainerApp{
     display: flex;
     justify-content: center;
+    background-image: url('../../images/cvety.jpg');
+    background-size: cover;
 }
