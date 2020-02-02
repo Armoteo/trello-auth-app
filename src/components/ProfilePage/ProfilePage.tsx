@@ -12,8 +12,8 @@ interface ProfilePageProps extends RouteChildrenProps {
 
 }
 
-interface arrProfile {
-    arrProfile: object;
+interface  ProfileState {
+    arrProfile:{
     id?: string;
     avatarHash?: string;
     avatarUrl?: string;
@@ -22,15 +22,13 @@ interface arrProfile {
     fullName?: string;
     url?: string;
     username?: string;
+    }
 }
 
-interface ProfileState {
-    // arrProfile: Array<arrProfile>;
-}
 
 export class ProfilePage extends Component<ProfilePageProps> {
 
-    public state: any = {
+    public state: ProfileState = {
         arrProfile: {
 
         }
@@ -40,8 +38,6 @@ export class ProfilePage extends Component<ProfilePageProps> {
         this.getProfile();
     }
 
-
-
     private getToken = () => {
         return getFromLocalStorage(TOKEN_STRORAGE_KEY);
     }
@@ -49,7 +45,6 @@ export class ProfilePage extends Component<ProfilePageProps> {
     private async getProfile() {
         const token = this.getToken();
         const url = `https://api.trello.com/1/members/armoteo?fields=id,avatarUrl,gravatarHash,email,fullName,url,username&key=${REACT_APP_API_KEY}&token=${token}`;
-        // const url = `https://api.trello.com/1/members/armoteo?fields=all&key=${REACT_APP_API_KEY}&token=${token}`;
         const response = await fetch(url);
         if (response.ok === true && response.status === 200) {
             const parsResponse = await response.json();
@@ -59,10 +54,11 @@ export class ProfilePage extends Component<ProfilePageProps> {
 
     private renderHeaderProfile() {
         const urlVatar = `${this.state.arrProfile.avatarUrl}/170.png`;
+        const alt='AVATAR';
         const name = this.state.arrProfile.username ? this.state.arrProfile.username : 'error';
         return (
             <div className='ProfileHeader'>
-                <img src={urlVatar} alt="PHOTO"></img>
+                <img src={urlVatar} alt={alt} ></img>
                 <h3>{name}</h3>
             </div>
         )
