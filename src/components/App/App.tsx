@@ -40,24 +40,24 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     private async getTokken() {
-        if (this.state.token) {
-            return;
-        }
-        const token = getFromLocalStorage(TOKEN_STRORAGE_KEY);
-        if (!token) {
-            return this.navigateToLogin();
-        }
-        const url = `https://api.trello.com/1/members/me?key=${REACT_APP_API_KEY}&token=${token}`;
-        const response = await fetch(url);
+        // if (this.state.token) {
+        //     return;
+        // }
+        // const token = getFromLocalStorage(TOKEN_STRORAGE_KEY);
+        // if (!token) {
+        //     return this.navigateToLogin();
+        // }
+        // const url = `https://api.trello.com/1/members/me?key=${REACT_APP_API_KEY}&token=${token}`;
+        // const response = await fetch(url);
 
-        if (response.ok === true && response.status === 200) {
-            const userProfile = await response.json();
-            this.setProfile(userProfile);
-            this.saveToken(token);
-            return this.navigateMainPage();
-        }
+        // if (response.ok === true && response.status === 200) {
+        //     const userProfile = await response.json();
+        //     this.setProfile(userProfile);
+        //     // this.saveToken(token);
+        //     return this.navigateMainPage();
+        // }
 
-        return this.navigateToLogin();
+        // return this.navigateToLogin();
     }
 
 
@@ -74,15 +74,15 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     //save our tokken in localstorage
-    private saveToken = (token: string) => {
-        this.setState({ token });
-        setToLocalStorage(TOKEN_STRORAGE_KEY, token);
-    }
+    // private saveToken = (token: string) => {
+    //     this.setState({ token });
+    //     setToLocalStorage(TOKEN_STRORAGE_KEY, token);
+    // }
 
-    private logOut = () => {
-        this.setState(INITIAL_STATE);
-        this.navigateToLogin();
-    }
+    // private logOut = () => {
+    //     this.setState(INITIAL_STATE);
+    //     this.navigateToLogin();
+    // }
 
     //check tokken
     private get checkLoggin() {
@@ -94,7 +94,7 @@ class App extends React.Component<AppProps, AppState> {
             <main>
                 <Switch>
                     {routes.map(this.renderRoute)}
-                    <Route path={ROUTES_URLS.OAUTH} render={(props: RouteChildrenProps) => <OpenAuthorization {...props} onSaveToken={this.saveToken} />} />
+                    <Route path={ROUTES_URLS.OAUTH} render={(props: RouteChildrenProps) => <OpenAuthorization {...props} />} />
                     <Redirect to={ROUTES_URLS.NOT_FOUND} />
                 </Switch>
             </main>
@@ -107,8 +107,8 @@ class App extends React.Component<AppProps, AppState> {
                 exact={route.exact}
                 key={index}
                 path={route.path}
-                render={(props: any) => route.render({logout:this.logOut, ...props })}
-                isAuthenticated={this.checkLoggin}
+                render={(props: any) => route.render({ ...props })}
+            // isAuthenticated={this.checkLoggin}
             />
         } else {
             return <Route
