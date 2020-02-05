@@ -4,5 +4,5 @@ export const setToLocalStorage = (key: string, data: any) => {
 };
 
 export const getFromLocalStorage = (key: string) => {
-  return window.localStorage.getItem(key) || '{}';
+  return window.localStorage.getItem(key);
 };

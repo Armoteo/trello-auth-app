@@ -4,22 +4,11 @@ import { RouteComponentProps, Route, Redirect, Switch, RouteChildrenProps, withR
 import { routes, AppRoute, ROUTES_URLS } from "./Routes";
 import { OpenAuthorization } from "../OpenAuthorization";
 import { ProtectedRoute } from "../ProtectedRoute";
-import { setToLocalStorage, getFromLocalStorage } from "../../utils";
-
-
-const TOKEN_STRORAGE_KEY = 'TOKEN';
-const { REACT_APP_API_KEY } = process.env;
-
-// interface Board {
-//     id: string;
-//     name: string;
-//     pinned: boolean;
-//     desc?: string;
-// }
+import { init } from "../../store/initialization";
+import { connect } from "react-redux";
 
 interface AppState {
     token: string;
-    // boards: Array<Board>;
     userProfile: any;
 }
 
@@ -28,66 +17,11 @@ interface AppProps extends RouteComponentProps { }
 const INITIAL_STATE = {
     token: '',
     userProfile: undefined,
-    // boards: []
 }
 
 class App extends React.Component<AppProps, AppState> {
 
     public state = INITIAL_STATE;
-
-    componentDidMount() {
-        this.getTokken();
-    }
-
-    private async getTokken() {
-        // if (this.state.token) {
-        //     return;
-        // }
-        // const token = getFromLocalStorage(TOKEN_STRORAGE_KEY);
-        // if (!token) {
-        //     return this.navigateToLogin();
-        // }
-        // const url = `https://api.trello.com/1/members/me?key=${REACT_APP_API_KEY}&token=${token}`;
-        // const response = await fetch(url);
-
-        // if (response.ok === true && response.status === 200) {
-        //     const userProfile = await response.json();
-        //     this.setProfile(userProfile);
-        //     // this.saveToken(token);
-        //     return this.navigateMainPage();
-        // }
-
-        // return this.navigateToLogin();
-    }
-
-
-    private setProfile(userProfile: any) {
-        this.setState({ userProfile });
-    }
-
-    private navigateMainPage() {
-        this.props.history.push(ROUTES_URLS.MAIN_PAGE);
-    }
-
-    private navigateToLogin() {
-        this.props.history.push(ROUTES_URLS.LOGIN);
-    }
-
-    //save our tokken in localstorage
-    // private saveToken = (token: string) => {
-    //     this.setState({ token });
-    //     setToLocalStorage(TOKEN_STRORAGE_KEY, token);
-    // }
-
-    // private logOut = () => {
-    //     this.setState(INITIAL_STATE);
-    //     this.navigateToLogin();
-    // }
-
-    //check tokken
-    private get checkLoggin() {
-        return !!this.state.token
-    }
 
     private renderPage() {
         return (
@@ -108,7 +42,6 @@ class App extends React.Component<AppProps, AppState> {
                 key={index}
                 path={route.path}
                 render={(props: any) => route.render({ ...props })}
-            // isAuthenticated={this.checkLoggin}
             />
         } else {
             return <Route
@@ -117,8 +50,7 @@ class App extends React.Component<AppProps, AppState> {
                 path={route.path}
                 render={(props: RouteChildrenProps) => route.render({ ...props })} />
         }
-    }
-
+    };
     public render() {
         return (
             <div className="App">
@@ -130,5 +62,15 @@ class App extends React.Component<AppProps, AppState> {
     }
 }
 
-const AppWithRouter = withRouter(App);
+
+const mapDispatchProps = (dispatch: any) => {
+    return {
+        onInit: () => dispatch(init())
+    };
+};
+
+
+
+
+const AppWithRouter = withRouter(connect(undefined, mapDispatchProps)(App));
 export { AppWithRouter as App };

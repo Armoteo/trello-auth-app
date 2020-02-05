@@ -13,9 +13,11 @@ export const asyncIncreaseMiddleware: Middleware = () =>
         return async (action: any) => {
             if (action.type === ACTION_TYPES.INCREASE_COUNT) {
                 await asyncTimeout(() => {
+                    console.log("COUNT", action);
                     next(action);
                 }, 2000);
             } else {
+                console.log("COUNT", action);
                 next(action);
             }
         };
