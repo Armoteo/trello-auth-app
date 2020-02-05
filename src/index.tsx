@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import './index.scss';
 import { App } from './components/App';
 import { BrowserRouter } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import configureStore from './store';
 
