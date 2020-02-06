@@ -1,4 +1,4 @@
-import { subscribe } from "../../utils"
+import { subscribe } from "../../utils/redux"
 import { ACTION_TYPES } from './types';
 import { initStart, initEnd } from "./actions";
 import { readToken } from "../auth";
@@ -9,8 +9,9 @@ const initWorker = ({ action, dispatch, next }: any) => {
   dispatch(readToken());
   dispatch(initEnd());
   next(action);
-
 };
 
-const init = ({ dispatch }: any) => (next: any) => subscribe(ACTION_TYPES.INIT, initWorker)({ next, dispatch });
+const init = ({ dispatch }: any) => (next: any) =>
+  subscribe(ACTION_TYPES.INIT, initWorker)({ next, dispatch });
+
 export const initMiddleware = [init];

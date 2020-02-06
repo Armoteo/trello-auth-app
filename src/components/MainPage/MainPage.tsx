@@ -3,6 +3,7 @@ import './MainPage.scss';
 import { RouteChildrenProps } from 'react-router';
 import { getFromLocalStorage } from "../../utils";
 import { BoardComponent } from '../BoardComponent';
+import { connect } from 'react-redux';
 
 
 const TOKEN_STRORAGE_KEY = 'TOKEN';
@@ -25,7 +26,7 @@ interface AppState {
     boards: Array<Board>;
 }
 
-export class MainPage extends React.Component<MainPageProps> {
+class MainPage extends React.Component<MainPageProps> {
 
     public state: AppState = {
         idBoard: "",
@@ -75,3 +76,19 @@ export class MainPage extends React.Component<MainPageProps> {
         )
     }
 }
+
+const mapStateToProps = (state: AppState) => {
+    return {
+
+    };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+
+    };
+};
+const ConnectedMainPage = connect(mapStateToProps,
+    mapDispatchToProps)(MainPage);
+
+export { ConnectedMainPage as MainPage };

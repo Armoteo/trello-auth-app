@@ -1,4 +1,3 @@
-
 export type Worker<T extends { type: string }> = (param: {
     action: T;
     next: any;
@@ -10,8 +9,7 @@ export const subscribe = <T extends { type: string }>(
     actionType: string | Array<string>,
     worker: Worker<T>
 ) => (next: any, dispatch?: any, getState?: () => any) =>
-        /**Exactly this is action handler will be called at middleware */
-        (action: any) => {
+        (action: T) => {
             const isWatchedAction: boolean =
                 typeof actionType !== 'string'
                     ? actionType.indexOf(action.type) !== -1

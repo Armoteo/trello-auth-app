@@ -1,11 +1,9 @@
 import { combineReducers, compose, createStore, applyMiddleware } from 'redux';
-import counter, { CounterState } from './counter';
 import auth, { AuthState, middlewaresAuth } from './auth';
 import http, { httpMiddlewares, HTTPState } from './http';
 import { initMiddleware } from './initialization';
 
 export interface AppState {
-    counter: CounterState;
     auth: AuthState;
     http: HTTPState;
 }
@@ -17,7 +15,6 @@ const composeEnhancers =
 // root
 export default function configureStore() {
     const rootReducer = combineReducers<AppState>({
-        counter,
         auth,
         http
     });
@@ -27,6 +24,5 @@ export default function configureStore() {
         composeEnhancers(applyMiddleware(...middlewaresAuth, ...httpMiddlewares, ...initMiddleware))
     );
 }
-export * from './counter';
 export * from './auth';
 

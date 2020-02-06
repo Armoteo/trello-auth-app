@@ -1,6 +1,6 @@
 import * as React from "react";
 import './App.scss';
-import { RouteComponentProps, Route, Redirect, Switch, RouteChildrenProps, withRouter } from "react-router-dom";
+import { RouteComponentProps, Route, Switch, RouteChildrenProps, withRouter } from "react-router-dom";
 import { routes, AppRoute, ROUTES_URLS } from "./Routes";
 import { OpenAuthorization } from "../OpenAuthorization";
 import { ProtectedRoute } from "../ProtectedRoute";
@@ -12,7 +12,9 @@ interface AppState {
     userProfile: any;
 }
 
-interface AppProps extends RouteComponentProps { }
+interface AppProps extends RouteComponentProps {
+    onInit: () => void;
+}
 
 const INITIAL_STATE = {
     token: '',
@@ -23,13 +25,16 @@ class App extends React.Component<AppProps, AppState> {
 
     public state = INITIAL_STATE;
 
+    componentDidMount() {
+        this.props.onInit();
+    }
+
     private renderPage() {
         return (
             <main>
                 <Switch>
                     {routes.map(this.renderRoute)}
                     <Route path={ROUTES_URLS.OAUTH} render={(props: RouteChildrenProps) => <OpenAuthorization {...props} />} />
-                    <Redirect to={ROUTES_URLS.NOT_FOUND} />
                 </Switch>
             </main>
         )
@@ -41,14 +46,14 @@ class App extends React.Component<AppProps, AppState> {
                 exact={route.exact}
                 key={index}
                 path={route.path}
-                render={(props: any) => route.render({ ...props })}
+                render={route.render}
             />
         } else {
             return <Route
                 exact={route.exact}
                 key={index}
                 path={route.path}
-                render={(props: RouteChildrenProps) => route.render({ ...props })} />
+                render={(props) => route.render({ ...props })} />
         }
     };
     public render() {
@@ -68,9 +73,6 @@ const mapDispatchProps = (dispatch: any) => {
         onInit: () => dispatch(init())
     };
 };
-
-
-
 
 const AppWithRouter = withRouter(connect(undefined, mapDispatchProps)(App));
 export { AppWithRouter as App };

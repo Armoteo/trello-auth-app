@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { RouteChildrenProps, Redirect } from 'react-router-dom';
+import { RouteChildrenProps, Redirect } from 'react-router';
 import { ROUTES_URLS } from '../App/Routes';
 import { setToken } from '../../store/auth';
 import { connect } from 'react-redux';
