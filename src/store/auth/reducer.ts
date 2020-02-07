@@ -13,6 +13,8 @@ export default (state: AuthState = INITIAL_STATE, { type, payload }: any) => {
     switch (type) {
         case ACTION_TYPES.SET_TOKEN:
             return { ...state, token: payload };
+            case ACTION_TYPES.DELETE_TOKEN:
+                return { ...state, token: '' };
         default:
             return state;
     }

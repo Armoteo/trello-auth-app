@@ -9,6 +9,7 @@ const ID_BOARD_STRORAGE_KEY = "ID_BOARD";
 export class BoardComponent extends React.Component<any>{
 
     clickOpen = (e: { target: any; }) => {
+        console.log(this.props.id);
         setToLocalStorage(ID_BOARD_STRORAGE_KEY, this.props.id);
     }
 

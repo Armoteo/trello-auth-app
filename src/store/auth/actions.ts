@@ -8,3 +8,7 @@ export const setToken = (token: string) => ({
 export const readToken = () => ({
     type: ACTION_TYPES.READ_TOKEN
 });
+
+export const deleteToken = () => ({
+    type: ACTION_TYPES.DELETE_TOKEN
+});

@@ -15,4 +15,3 @@ export const initEnd = () => ({
 export const reset = () => ({
   type: ACTION_TYPES.RESET,
 });
-

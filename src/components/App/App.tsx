@@ -1,33 +1,39 @@
 import * as React from "react";
 import './App.scss';
-import { RouteComponentProps, Route, Switch, RouteChildrenProps, withRouter } from "react-router-dom";
+import { RouteComponentProps, Route, Switch, RouteChildrenProps, withRouter} from "react-router-dom";
 import { routes, AppRoute, ROUTES_URLS } from "./Routes";
 import { OpenAuthorization } from "../OpenAuthorization";
 import { ProtectedRoute } from "../ProtectedRoute";
-import { init } from "../../store/initialization";
 import { connect } from "react-redux";
+import { deleteToken } from "../../store/auth";
+
+interface Board {
+    id: string;
+    name: string;
+    pinned: boolean;
+    desc?: string;
+  }
 
 interface AppState {
     token: string;
+    boards: Array<Board>;
     userProfile: any;
 }
 
+
 interface AppProps extends RouteComponentProps {
-    onInit: () => void;
+    deleteToken?: () => void;
 }
 
 const INITIAL_STATE = {
     token: '',
     userProfile: undefined,
+    boards: []
 }
 
 class App extends React.Component<AppProps, AppState> {
 
     public state = INITIAL_STATE;
-
-    componentDidMount() {
-        this.props.onInit();
-    }
 
     private renderPage() {
         return (
@@ -46,7 +52,7 @@ class App extends React.Component<AppProps, AppState> {
                 exact={route.exact}
                 key={index}
                 path={route.path}
-                render={route.render}
+                render={(props: any) => route.render({logout:this.props.deleteToken, ...props })}
             />
         } else {
             return <Route
@@ -70,7 +76,7 @@ class App extends React.Component<AppProps, AppState> {
 
 const mapDispatchProps = (dispatch: any) => {
     return {
-        onInit: () => dispatch(init())
+        deleteToken: () => dispatch(deleteToken())
     };
 };
 
