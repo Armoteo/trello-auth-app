@@ -13,13 +13,6 @@ const makeUrl = (path: string, authRequired: boolean, token: string) => {
   
     return url;
   };
-  
-
-
-
-
-
-
 
 export const requestWorker: Worker<any> = async ({ action, next, getState }) => {
     const requestId = uuid();

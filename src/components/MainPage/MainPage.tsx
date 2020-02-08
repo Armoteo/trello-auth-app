@@ -11,8 +11,6 @@ interface MainPageProps extends RouteChildrenProps {
   token?: string;
   myCount?: number;
   boards?: Array<any>;
-  onIncrease?: () => void;
-  onDecrease?: () => void;
   onFetchBoards?: () => void;
 }
 
