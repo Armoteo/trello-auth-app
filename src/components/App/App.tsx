@@ -1,18 +1,18 @@
 import * as React from "react";
 import './App.scss';
-import { RouteComponentProps, Route, Switch, RouteChildrenProps, withRouter} from "react-router-dom";
+import { RouteComponentProps, Route, Switch, RouteChildrenProps, withRouter } from "react-router-dom";
 import { routes, AppRoute, ROUTES_URLS } from "./Routes";
 import { OpenAuthorization } from "../OpenAuthorization";
 import { ProtectedRoute } from "../ProtectedRoute";
 import { connect } from "react-redux";
-import { deleteToken } from "../../store/auth";
+
 
 interface Board {
     id: string;
     name: string;
     pinned: boolean;
     desc?: string;
-  }
+}
 
 interface AppState {
     token: string;
@@ -22,7 +22,7 @@ interface AppState {
 
 
 interface AppProps extends RouteComponentProps {
-    deleteToken?: () => void;
+
 }
 
 const INITIAL_STATE = {
@@ -52,7 +52,7 @@ class App extends React.Component<AppProps, AppState> {
                 exact={route.exact}
                 key={index}
                 path={route.path}
-                render={(props: any) => route.render({logout:this.props.deleteToken, ...props })}
+                render={(props: any) => route.render({ ...props })}
             />
         } else {
             return <Route
@@ -76,7 +76,7 @@ class App extends React.Component<AppProps, AppState> {
 
 const mapDispatchProps = (dispatch: any) => {
     return {
-        deleteToken: () => dispatch(deleteToken())
+
     };
 };
 

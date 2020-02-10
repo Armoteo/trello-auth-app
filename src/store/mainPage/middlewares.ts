@@ -12,9 +12,8 @@ const fetchBoardsWorker: any = ({
   next: any;
   dispatch: any;
 }) => {
-  console.log('FETCHED');
+ 
 
-  
   dispatch(
     request({
       path: '/1/members/me/boards',
@@ -30,11 +29,7 @@ const fetchBoardsWorker: any = ({
   );
 };
 
-const testMiddleware = () => (next:any) => (action: any) => {
-  console.log(">>>", action);
-  next(action);
-}
 const fetchMiddleware = ({ dispatch }: any) => (next: any) =>
   subscribe(ACTION_TYPES.FETCH, fetchBoardsWorker)(next, dispatch);
 
-export const boardsMiddleware = [fetchMiddleware, testMiddleware];
+export const boardsMiddleware = [fetchMiddleware];

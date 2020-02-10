@@ -10,5 +10,5 @@ export const readToken = () => ({
 });
 
 export const deleteToken = () => ({
-    type: ACTION_TYPES.DELETE_TOKEN
+    type: ACTION_TYPES.DELETE_TOKEN,
 });
