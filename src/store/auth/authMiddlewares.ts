@@ -1,6 +1,6 @@
 import { ACTION_TYPES } from "./types";
 import { setToLocalStorage, subscribe, getFromLocalStorage } from "../../utils";
-import { setToken, deleteToken } from './actions';
+import { setToken } from './actions';
 import { ROUTES_URLS } from '../../components/App/Routes';
 import { navigate } from '../router';
 

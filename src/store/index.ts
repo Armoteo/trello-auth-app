@@ -5,12 +5,15 @@ import { initMiddleware } from './initialization';
 import connectRouter from './router';
 import { History } from 'history';
 import boards, { boardsMiddleware } from './mainPage';
+import listCard, { ListsMiddleware } from './listBoard';
+
 
 export interface AppState {
     auth: AuthState;
     http: HTTPState;
     router?: any;
     boards?: any;
+    listCard?: any;
 }
 //@ts-ignore
 const t = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
@@ -23,6 +26,7 @@ export default function configureStore(history: History) {
         router: connectRouter(history),
         auth,
         boards,
+        listCard,
         http
     });
     return createStore(
@@ -31,10 +35,11 @@ export default function configureStore(history: History) {
         composeEnhancers(
             applyMiddleware(
                 ...middlewaresAuth,
-                 ...httpMiddlewares,
-                  ...initMiddleware,
-                  ...boardsMiddleware
-                  ))
+                ...httpMiddlewares,
+                ...initMiddleware,
+                ...boardsMiddleware,
+                ...ListsMiddleware,
+            ))
     );
 }
 export * from './auth';

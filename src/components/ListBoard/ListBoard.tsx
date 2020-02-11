@@ -1,84 +1,57 @@
 import * as React from 'react';
 import './ListBoard.scss';
 import { RouteChildrenProps } from 'react-router';
-import { ListCard } from '../ListCard';
-import { getFromLocalStorage } from '../../utils';
+import { connect } from 'react-redux';
+import { AppState } from '../../store';
+import { fetchBoards, getBoards } from '../../store/listBoard';
+
 
 interface ListPageProps extends RouteChildrenProps {
-    text?: string;
+    token?: string;
+    name?: string;
     id?: string;
+    listCard?: Array<any>;
+    onFetchBoards?: () => void;
 }
 
-interface listCard {
-    id: string;
-    name: string;
-    pinned?: boolean;
-    desc?: string;
-    lists?: [];
-}
 
-interface AppState {
-    listCard: Array<listCard>;
-}
-
-const ID_BOARD_STRORAGE_KEY = "ID_BOARD";
-const TOKEN_STRORAGE_KEY = 'TOKEN';
-const { REACT_APP_API_KEY } = process.env;
-
-
-export class ListBoard extends React.Component<ListPageProps>{
-
-    public state: AppState = {
-        listCard: []
-    }
+class ListBoard extends React.Component<ListPageProps>{
 
     componentDidMount() {
-        this.getList();
+        this.props.onFetchBoards!();
+        console.log(this.props.listCard);
     }
-
-
-    private getToken = () => {
-        return getFromLocalStorage(TOKEN_STRORAGE_KEY);
-    }
-    private getIDboard = () => {
-        return getFromLocalStorage(ID_BOARD_STRORAGE_KEY);
-    }
-
-    private async getList() {
-        const token = this.getToken();
-        const idBoard = this.getIDboard();
-        const url = `https://api.trello.com/1/members/armoteo/boards?filter=all&fields=id,name,pinned,descData&lists=all&memberships=none&organization=false&organization_fields=name%2CdisplayName&key=${REACT_APP_API_KEY}&token=${token}`;
-        const response = await fetch(url);
-        if (response.ok === true && response.status === 200) {
-            const parsResponse = await response.json();
-            // eslint-disable-next-line array-callback-return
-            parsResponse.map((item: any) => {
-                if (item.id === idBoard) {
-                    this.setState({ listCard: item.lists });
-                }
-            });
-        }
-    }
-
-    private createdListCard = () => {
-        const array = this.state.listCard;
-        return array.map((item: any) =>
-            <ListCard
-                name={item.name}
-                id={item.id}
-                key={item.id}
-            />
-        )
-    }
-
 
     render() {
-        const listCardView = this.createdListCard();
+        const createdListCard = this.props.listCard!.map((item, index) =>
+            <div>
+
+            </div>
+        );
+
         return (
             <div className="ListBoard">
-                {listCardView}
+                {createdListCard}
             </div>
         )
     }
 }
+
+const mapStateToProps = (state: AppState) => {
+    return {
+        listCard: getBoards(state)
+    };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        onFetchBoards: () => dispatch(fetchBoards())
+    };
+};
+const ConnectedListBoards = connect(mapStateToProps,
+    mapDispatchToProps)(ListBoard);
+
+export { ConnectedListBoards as ListBoard };
+
+
 
