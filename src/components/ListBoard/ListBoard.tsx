@@ -6,6 +6,7 @@ import { AppState } from '../../store';
 import { fetchBoards, getBoards } from '../../store/listBoard';
 
 
+
 interface ListPageProps extends RouteChildrenProps {
     token?: string;
     name?: string;
@@ -17,21 +18,24 @@ interface ListPageProps extends RouteChildrenProps {
 
 class ListBoard extends React.Component<ListPageProps>{
 
+
+
     componentDidMount() {
         this.props.onFetchBoards!();
-        console.log(this.props.listCard);
     }
 
     render() {
-        const createdListCard = this.props.listCard!.map((item, index) =>
-            <div>
+        // const createdListCard = this.props.listCard!.map((item, index) =>
+        //     <ListCard
+        //     key={index}
 
-            </div>
-        );
+        //     />
+        // );
 
         return (
             <div className="ListBoard">
-                {createdListCard}
+                {/* {createdListCard} */}
+                {console.log(this.props.listCard)}
             </div>
         )
     }

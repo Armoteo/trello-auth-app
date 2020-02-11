@@ -19,20 +19,13 @@ class MainPage extends React.Component<MainPageProps> {
     this.props.onFetchBoards!();
   }
 
-  //go to  previous page
-  // goBack = () => {
-  //     this.props.history.goBack();
-  // }
-
-
   render() {
 
     const createdBoard = this.props.boards!.map((item, index) =>
       <BoardComponent
         key={index}
-        id={item.id}
+        id={item.shortLink}
         name={item.name}
-        lists={item.lists}
       />
     );
 
