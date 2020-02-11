@@ -1,0 +1,5 @@
+export enum ACTION_TYPES {
+    FETCH_PROFILE = '@@PROFILE/FETCH',
+    SET_PROFILE = '@@PROFILE/SET'
+  }
+  

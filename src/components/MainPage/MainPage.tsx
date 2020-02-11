@@ -7,8 +7,6 @@ import { fetchBoards, getBoards } from '../../store/mainPage';
 import { AppState } from '../../store';
 
 interface MainPageProps extends RouteChildrenProps {
-  hello?: string;
-  token?: string;
   boards?: Array<any>;
   onFetchBoards?: () => void;
 }
@@ -20,7 +18,6 @@ class MainPage extends React.Component<MainPageProps> {
   }
 
   render() {
-
     const createdBoard = this.props.boards!.map((item, index) =>
       <BoardComponent
         key={index}

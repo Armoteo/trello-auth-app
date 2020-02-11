@@ -4,38 +4,36 @@ import { RouteChildrenProps } from 'react-router';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { fetchBoards, getBoards } from '../../store/listBoard';
-
-
+import { ListCard } from '../ListCard';
 
 interface ListPageProps extends RouteChildrenProps {
     token?: string;
     name?: string;
     id?: string;
-    listCard?: Array<any>;
+    listBoard?: Array<any>;
     onFetchBoards?: () => void;
 }
 
-
 class ListBoard extends React.Component<ListPageProps>{
-
-
 
     componentDidMount() {
         this.props.onFetchBoards!();
     }
 
-    render() {
-        // const createdListCard = this.props.listCard!.map((item, index) =>
-        //     <ListCard
-        //     key={index}
 
-        //     />
-        // );
+    render() {
+        const createdListCard = this.props.listBoard!.map((item:any, index:number) =>
+            <ListCard
+            key={index}
+            id={item.id}
+            name={item.name}
+
+            />
+        );
 
         return (
             <div className="ListBoard">
-                {/* {createdListCard} */}
-                {console.log(this.props.listCard)}
+                {createdListCard}
             </div>
         )
     }
@@ -43,7 +41,7 @@ class ListBoard extends React.Component<ListPageProps>{
 
 const mapStateToProps = (state: AppState) => {
     return {
-        listCard: getBoards(state)
+        listBoard: getBoards(state)
     };
 };
 

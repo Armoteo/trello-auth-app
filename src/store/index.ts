@@ -5,7 +5,9 @@ import { initMiddleware } from './initialization';
 import connectRouter from './router';
 import { History } from 'history';
 import boards, { boardsMiddleware } from './mainPage';
-import listCard, { ListsMiddleware } from './listBoard';
+import listBoard, { ListsMiddleware } from './listBoard';
+import profile, { profileMiddleware } from './profile';
+import listCard, { CardMiddleware } from './listCard';
 
 
 export interface AppState {
@@ -13,7 +15,9 @@ export interface AppState {
     http: HTTPState;
     router?: any;
     boards?: any;
-    listCard?: any;
+    listBoard?: any;
+    profile?:any;
+    listCard?:any;
 }
 //@ts-ignore
 const t = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
@@ -26,6 +30,8 @@ export default function configureStore(history: History) {
         router: connectRouter(history),
         auth,
         boards,
+        listBoard,
+        profile,
         listCard,
         http
     });
@@ -39,6 +45,8 @@ export default function configureStore(history: History) {
                 ...initMiddleware,
                 ...boardsMiddleware,
                 ...ListsMiddleware,
+                ...profileMiddleware,
+                ...CardMiddleware
             ))
     );
 }

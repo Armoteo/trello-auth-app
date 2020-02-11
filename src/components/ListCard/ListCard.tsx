@@ -1,52 +1,40 @@
 import React from 'react';
 import './ListCard.scss';
-import { getFromLocalStorage } from '../../utils';
+import { RouteChildrenProps } from 'react-router';
+import { fetchBoards, getBoards } from '../../store/listCard';
+import { connect } from 'react-redux';
+import { AppState } from '../../store';
+import { setToLocalStorage } from '../../utils';
 
-const TOKEN_STRORAGE_KEY = 'TOKEN';
-const { REACT_APP_API_KEY } = process.env;
-
-interface listArray {
-    id: string;
-    name: string;
-    lists?: [];
+interface ListCardsProps extends RouteChildrenProps {
+    token?: string;
+    name?: string;
+    id?: string;
+    listBoard?: Array<any>;
+    onFetchBoards?: () => void;
 }
 
-interface AppState {
-    listArray: Array<listArray>;
-}
 
-export class ListCard extends React.Component<any> {
+const ID_LIST_CARDS = "ID_LIST_CARDS";
 
-    public state: AppState = {
-        listArray: []
-    }
+ class ListCard extends React.Component<any> {
+
+    
 
     componentDidMount() {
-        this.getListCard();
-    }
-
-    private getToken = () => {
-        return getFromLocalStorage(TOKEN_STRORAGE_KEY);
-    }
-
-    private async getListCard() {
-        const token = this.getToken();
-        const url = `https://api.trello.com/1/lists/${this.props.id}/cards?fields=id,name,badges,labels&key=${REACT_APP_API_KEY}&token=${token}`;
-        const response = await fetch(url);
-        if (response.ok === true && response.status === 200) {
-            const parsResponse = await response.json();
-            this.setState({ listArray: parsResponse });
-        }
+        this.props.onFetchBoards!();
+        
     }
 
     private createListItem() {
-        const arr = this.state.listArray;
-        return arr.map((item, index) =>
-            <li key={index}>{item.name}</li>
-        )
-    }
+        const arr = this.props.listCard;
+        return arr.map((item:any, index:number) =>{
+            return item.idList=== this.props.id?<li key={index}>{item.name}</li>:null;
+    });
+    };
 
     render() {
+        console.log(this.props.listCard);
         const createListItem = this.createListItem();
         return (
             <div className="ListCard" >
@@ -61,3 +49,20 @@ export class ListCard extends React.Component<any> {
         )
     }
 }
+
+
+const mapStateToProps = (state: AppState) => {
+    return {
+        listCard: getBoards(state)
+    };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        onFetchBoards: () => dispatch(fetchBoards())
+    };
+};
+const ConnectedListCard = connect(mapStateToProps,
+    mapDispatchToProps)(ListCard);
+
+export { ConnectedListCard as ListCard };
