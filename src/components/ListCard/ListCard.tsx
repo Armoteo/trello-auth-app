@@ -1,9 +1,11 @@
 import React from 'react';
 import './ListCard.scss';
 import { RouteChildrenProps } from 'react-router';
-import { fetchBoards, getBoards } from '../../store/listCard';
+import { fetchBoards, getBoards, getListBoards } from '../../store/listCard';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
+import { getFromLocalStorage } from '../../utils';
+
 
 interface ListCardsProps extends RouteChildrenProps {
     token?: string;
@@ -13,17 +15,65 @@ interface ListCardsProps extends RouteChildrenProps {
     onFetchBoards?: () => void;
 }
 
+const APP_TOKEN = 'TREELLO_CUSTOM_APP_TOKEN';
+const { REACT_APP_API_KEY } = process.env;
 
-// const ID_LIST_CARDS = "ID_LIST_CARDS";
 
 class ListCard extends React.Component<any> {
-
-
 
     componentDidMount() {
         this.props.onFetchBoards!();
 
     }
+
+    private toggleListCardRight(idCard: any, idList: any) {
+        const listID = this.genericIdList(idList, 'Right');
+        this.toogleList(idCard, listID);
+        console.log(this.props.lists);
+    }
+
+    private toggleListCardLeft(idCard: any, idList: any) {
+        const listID = this.genericIdList(idList, 'Left');
+        this.toogleList(idCard, listID);
+    }
+
+    private genericIdList = (idList: string, action: string) => {
+
+        let indexItem = this.props.lists.findIndex((el: any) => el.id === idList);
+
+        if (indexItem < this.props.lists.length - 1 && action === 'Right') {
+            indexItem = indexItem + 1;
+            return this.props.lists[indexItem].id;
+        } else if (indexItem <= this.props.lists.length - 1 && action === 'Left' && indexItem !== 0) {
+            indexItem = indexItem - 1;
+            return this.props.lists[indexItem].id;
+        } else if (indexItem === 0 && action === 'Left') {
+            indexItem = this.props.lists.length - 1;
+            return this.props.lists[indexItem].id;
+        } else {
+            indexItem = 0;
+            return this.props.lists[indexItem].id;
+        }
+    }
+
+    private getToken = () => {
+        return getFromLocalStorage(APP_TOKEN);
+    }
+
+    private async toogleList(id: string, idList: any) {
+        const token = this.getToken();
+        const url = `https://api.trello.com/1/cards/${id}/idList?value=${idList}&key=${REACT_APP_API_KEY}&token=${token}`;
+        const response = await fetch(url, {
+            method: 'PUT'
+        });
+        if (response.ok === true && response.status === 200) {
+            this.props.onFetchBoards!();
+        }
+    }
+
+
+
+
 
     private createListItem() {
         const arr = this.props.listCard;
@@ -32,17 +82,14 @@ class ListCard extends React.Component<any> {
                 <div className="ItemListCard" key={index}>
                     <span>{item.name}</span>
                     <div>
-                        <button type="button">
+                        <button type="button" onClick={() => this.toggleListCardLeft(item.id, item.idList)}>
                             <i className="fas fa-arrow-left"></i>
                         </button>
-                        <button type="button">
+                        <button type="button" onClick={() => this.toggleListCardRight(item.id, item.idList)}>
                             <i className="fas fa-arrow-right"></i>
                         </button>
                         <button type="button">
                             <i className="fas fa-pencil-alt"></i>
-                        </button>
-                        <button type="button">
-                            <i className="fas fa-trash-alt"></i>
                         </button>
                     </div>
                 </div>
@@ -56,13 +103,11 @@ class ListCard extends React.Component<any> {
                 <div className="HeaderListCard">
                     <div>
                         <button type="button">
-                        <i className="fas fa-pencil-alt"></i>
-                    </button>
-                        <button type="button">
-                            <i className="fas fa-trash-alt"></i>
+                            <i className="fas fa-pencil-alt"></i>
                         </button>
                     </div>
                     <p>Name list: {this.props.name} </p>
+                    <p>id list: {this.props.id} </p>
                 </div>
                 {this.createListItem()}
             </div>
@@ -73,7 +118,8 @@ class ListCard extends React.Component<any> {
 
 const mapStateToProps = (state: AppState) => {
     return {
-        listCard: getBoards(state)
+        listCard: getBoards(state),
+        lists: getListBoards(state)
     };
 };
 
