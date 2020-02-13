@@ -22,12 +22,12 @@ class ListBoard extends React.Component<ListPageProps>{
 
 
     render() {
-        const createdListCard = this.props.listBoard!.map((item:any, index:number) =>
+        const createdListCard = this.props.listBoard!.map((item: any, index: number) =>
             <ListCard
-            key={index}
-            id={item.id}
-            name={item.name}
-
+                key={index}
+                id={item.id}
+                name={item.name}
+                flagTextArea={false}
             />
         );
 

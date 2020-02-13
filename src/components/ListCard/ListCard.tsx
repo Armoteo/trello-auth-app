@@ -71,16 +71,34 @@ class ListCard extends React.Component<any> {
         }
     }
 
-
-
+    private async toogleText(id: string) {
+        const arr = this.props.listCard.map((item: any) => {
+            return item.id === id ? item.flagTextArea = true : item.flagTextArea = false;
+        });
+        console.log(arr);
+        // const token = this.getToken();
+        // const text = 'Hello World'
+        // const url = `https://api.trello.com/1/cards/${id}/name?value=${text}&key=${REACT_APP_API_KEY}&token=${token}`;
+        // const response = await fetch(url, {
+        //     method: 'PUT'
+        // });
+        // if (response.ok === true && response.status === 200) {
+        //     this.props.onFetchBoards!();
+        // }
+    }
 
 
     private createListItem() {
+
+        const styleTextArea = this.props.flagTextArea ? "TextAreaCard anable" : ' TextAreaCard disable';
+
         const arr = this.props.listCard;
         return arr.map((item: any, index: number) => {
+
             return item.idList === this.props.id ?
                 <div className="ItemListCard" key={index}>
                     <span>{item.name}</span>
+                    <textarea className={styleTextArea} placeholder={item.name}></textarea>
                     <div>
                         <button type="button" onClick={() => this.toggleListCardLeft(item.id, item.idList)}>
                             <i className="fas fa-arrow-left"></i>
@@ -88,7 +106,7 @@ class ListCard extends React.Component<any> {
                         <button type="button" onClick={() => this.toggleListCardRight(item.id, item.idList)}>
                             <i className="fas fa-arrow-right"></i>
                         </button>
-                        <button type="button">
+                        <button type="button" onClick={() => this.toogleText(item.id)}>
                             <i className="fas fa-pencil-alt"></i>
                         </button>
                     </div>
@@ -107,7 +125,6 @@ class ListCard extends React.Component<any> {
                         </button>
                     </div>
                     <p>Name list: {this.props.name} </p>
-                    <p>id list: {this.props.id} </p>
                 </div>
                 {this.createListItem()}
             </div>

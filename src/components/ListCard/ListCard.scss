@@ -65,3 +65,29 @@ button{
        outline:none;
    }
    } 
+
+   .TextAreaCard{
+    height: 100px;
+    font-size: 1.2em;
+    resize: vertical;
+   }
+
+   .disable{
+    display: none;
+   }
+
+   .anable{
+    display: block;
+   }
+   /*Цвет плейсхолдера*/
+::-webkit-input-placeholder { /* Edge */
+    color: #bbbbbb;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #bbbbbb;
+}
+
+::placeholder {
+    color: #bbbbbb;
+}
