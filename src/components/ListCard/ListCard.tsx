@@ -4,7 +4,6 @@ import { RouteChildrenProps } from 'react-router';
 import { fetchBoards, getBoards } from '../../store/listCard';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
-import { setToLocalStorage } from '../../utils';
 
 interface ListCardsProps extends RouteChildrenProps {
     token?: string;
@@ -15,36 +14,57 @@ interface ListCardsProps extends RouteChildrenProps {
 }
 
 
-const ID_LIST_CARDS = "ID_LIST_CARDS";
+// const ID_LIST_CARDS = "ID_LIST_CARDS";
 
- class ListCard extends React.Component<any> {
+class ListCard extends React.Component<any> {
 
-    
+
 
     componentDidMount() {
         this.props.onFetchBoards!();
-        
+
     }
 
     private createListItem() {
         const arr = this.props.listCard;
-        return arr.map((item:any, index:number) =>{
-            return item.idList=== this.props.id?<li key={index}>{item.name}</li>:null;
-    });
+        return arr.map((item: any, index: number) => {
+            return item.idList === this.props.id ?
+                <div className="ItemListCard" key={index}>
+                    <span>{item.name}</span>
+                    <div>
+                        <button type="button">
+                            <i className="fas fa-arrow-left"></i>
+                        </button>
+                        <button type="button">
+                            <i className="fas fa-arrow-right"></i>
+                        </button>
+                        <button type="button">
+                            <i className="fas fa-pencil-alt"></i>
+                        </button>
+                        <button type="button">
+                            <i className="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                : null;
+        });
     };
 
     render() {
-        console.log(this.props.listCard);
-        const createListItem = this.createListItem();
         return (
             <div className="ListCard" >
                 <div className="HeaderListCard">
-                    <p>id: {this.props.id}</p>
-                    <p>name: {this.props.name} </p>
+                    <div>
+                        <button type="button">
+                        <i className="fas fa-pencil-alt"></i>
+                    </button>
+                        <button type="button">
+                            <i className="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                    <p>Name list: {this.props.name} </p>
                 </div>
-                <ul>
-                    {createListItem}
-                </ul>
+                {this.createListItem()}
             </div>
         )
     }

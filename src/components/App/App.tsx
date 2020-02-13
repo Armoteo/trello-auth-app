@@ -1,5 +1,4 @@
 import * as React from "react";
-import './App.scss';
 import { RouteComponentProps, Route, Switch, RouteChildrenProps, withRouter } from "react-router-dom";
 import { routes, AppRoute, ROUTES_URLS } from "./Routes";
 import { OpenAuthorization } from "../OpenAuthorization";
@@ -65,9 +64,7 @@ class App extends React.Component<AppProps, AppState> {
     public render() {
         return (
             <div className="App">
-                <div className="ContainerApp">
-                    {this.renderPage()}
-                </div>
+                {this.renderPage()}
             </div>
         )
     }

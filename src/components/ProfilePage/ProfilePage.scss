@@ -1,15 +1,14 @@
 .ProfilePage{
-    width: 1000px;
-    height: 100vh;
     display: flex;
     flex-direction: column;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
 }
 .ProfileHeader{
+width: 500px;
 height: 90px;
 display: flex;
+margin-left: 5px;
 align-items: center;
-background-color: rgba($color: #b1ddf0, $alpha: 0.5);
+border-bottom: 3px solid black;;
 img{
     width: 80px;
     height: 80px;
