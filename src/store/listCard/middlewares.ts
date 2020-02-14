@@ -34,6 +34,18 @@ const fetchBoardsWorker: any = ({
   );
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
 const fetchMiddleware = ({ dispatch }: any) => (next: any) =>
   subscribe(ACTION_TYPES.FETCH_LIST_CARD, fetchBoardsWorker)(next, dispatch);
 

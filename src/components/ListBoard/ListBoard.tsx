@@ -27,7 +27,6 @@ class ListBoard extends React.Component<ListPageProps>{
                 key={index}
                 id={item.id}
                 name={item.name}
-                flagTextArea={false}
             />
         );
 

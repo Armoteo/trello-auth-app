@@ -1,7 +1,7 @@
 import React from 'react';
 import './ListCard.scss';
 import { RouteChildrenProps } from 'react-router';
-import { fetchBoards, getBoards, getListBoards } from '../../store/listCard';
+import { fetchBoards, getBoards, getListBoards, toogleList, editCardStatus, toogleText } from '../../store/listCard';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { getFromLocalStorage } from '../../utils';
@@ -23,59 +23,59 @@ class ListCard extends React.Component<any> {
 
     componentDidMount() {
         this.props.onFetchBoards!();
-
     }
 
-    private toggleListCardRight(idCard: any, idList: any) {
-        const listID = this.genericIdList(idList, 'Right');
-        this.toogleList(idCard, listID);
-        console.log(this.props.lists);
-    }
+    // private toggleListCardRight(idCard: any, idList: any) {
+    //     const listID = this.genericIdList(idList, 'Right');
+    //     this.toogleList(idCard, listID);
+    // }
 
-    private toggleListCardLeft(idCard: any, idList: any) {
-        const listID = this.genericIdList(idList, 'Left');
-        this.toogleList(idCard, listID);
-    }
+    // private toggleListCardLeft(idCard: any, idList: any) {
+    //     // const listID = this.genericIdList(idList, 'Left');
+    //     // this.toogleList(idCard, listID);
+    // }
 
-    private genericIdList = (idList: string, action: string) => {
+    // private genericIdList = (idList: string, action: string) => {
 
-        let indexItem = this.props.lists.findIndex((el: any) => el.id === idList);
+    //     let indexItem = this.props.lists.findIndex((el: any) => el.id === idList);
 
-        if (indexItem < this.props.lists.length - 1 && action === 'Right') {
-            indexItem = indexItem + 1;
-            return this.props.lists[indexItem].id;
-        } else if (indexItem <= this.props.lists.length - 1 && action === 'Left' && indexItem !== 0) {
-            indexItem = indexItem - 1;
-            return this.props.lists[indexItem].id;
-        } else if (indexItem === 0 && action === 'Left') {
-            indexItem = this.props.lists.length - 1;
-            return this.props.lists[indexItem].id;
-        } else {
-            indexItem = 0;
-            return this.props.lists[indexItem].id;
+    //     if (indexItem < this.props.lists.length - 1 && action === 'Right') {
+    //         indexItem = indexItem + 1;
+    //         return this.props.lists[indexItem].id;
+    //     } else if (indexItem <= this.props.lists.length - 1 && action === 'Left' && indexItem !== 0) {
+    //         indexItem = indexItem - 1;
+    //         return this.props.lists[indexItem].id;
+    //     } else if (indexItem === 0 && action === 'Left') {
+    //         indexItem = this.props.lists.length - 1;
+    //         return this.props.lists[indexItem].id;
+    //     } else {
+    //         indexItem = 0;
+    //         return this.props.lists[indexItem].id;
+    //     }
+    // }
+
+    // private getToken = () => {
+    //     return getFromLocalStorage(APP_TOKEN);
+    // }
+
+    // private async toogleList(id: string, idList: any) {
+    //     const token = this.getToken();
+    //     const url = `https://api.trello.com/1/cards/${id}/idList?value=${idList}&key=${REACT_APP_API_KEY}&token=${token}`;
+    //     const response = await fetch(url, {
+    //         method: 'PUT'
+    //     });
+    //     if (response.ok === true && response.status === 200) {
+    //         this.props.onFetchBoards!();
+    //     }
+    // }
+    // listCardsArray
+    private toogleText(id: string) {
+        const array = this.props.listCard;
+        for (let i = 0; i < array.length; i++) {
+            array[i].flagTextArea = array[i].id === id ? true : false;
         }
-    }
+        this.props.editCardStatus(array);
 
-    private getToken = () => {
-        return getFromLocalStorage(APP_TOKEN);
-    }
-
-    private async toogleList(id: string, idList: any) {
-        const token = this.getToken();
-        const url = `https://api.trello.com/1/cards/${id}/idList?value=${idList}&key=${REACT_APP_API_KEY}&token=${token}`;
-        const response = await fetch(url, {
-            method: 'PUT'
-        });
-        if (response.ok === true && response.status === 200) {
-            this.props.onFetchBoards!();
-        }
-    }
-
-    private async toogleText(id: string) {
-        const arr = this.props.listCard.map((item: any) => {
-            return item.id === id ? item.flagTextArea = true : item.flagTextArea = false;
-        });
-        console.log(arr);
         // const token = this.getToken();
         // const text = 'Hello World'
         // const url = `https://api.trello.com/1/cards/${id}/name?value=${text}&key=${REACT_APP_API_KEY}&token=${token}`;
@@ -88,22 +88,21 @@ class ListCard extends React.Component<any> {
     }
 
 
+
+
     private createListItem() {
-
-        const styleTextArea = this.props.flagTextArea ? "TextAreaCard anable" : ' TextAreaCard disable';
-
-        const arr = this.props.listCard;
-        return arr.map((item: any, index: number) => {
-
+        return this.props.listCard.map((item: any, index: number) => {
+            const styleTextArea = item.flagTextArea === true ? "TextAreaCard anable" : "TextAreaCard disable";
+            console.log(styleTextArea);
             return item.idList === this.props.id ?
                 <div className="ItemListCard" key={index}>
                     <span>{item.name}</span>
                     <textarea className={styleTextArea} placeholder={item.name}></textarea>
                     <div>
-                        <button type="button" onClick={() => this.toggleListCardLeft(item.id, item.idList)}>
+                        <button type="button">
                             <i className="fas fa-arrow-left"></i>
                         </button>
-                        <button type="button" onClick={() => this.toggleListCardRight(item.id, item.idList)}>
+                        <button type="button">
                             <i className="fas fa-arrow-right"></i>
                         </button>
                         <button type="button" onClick={() => this.toogleText(item.id)}>
@@ -142,7 +141,10 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        onFetchBoards: () => dispatch(fetchBoards())
+        onFetchBoards: () => dispatch(fetchBoards()),
+        // toogleList: () => dispatch(toogleList(data)),
+        // toogleText: () => dispatch(toogleText(payload)),
+        editCardStatus: (data: any) => dispatch(editCardStatus(data))
     };
 };
 const ConnectedListCard = connect(mapStateToProps,
