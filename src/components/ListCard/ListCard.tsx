@@ -69,13 +69,19 @@ class ListCard extends React.Component<any> {
     //     }
     // }
     // listCardsArray
-    private toogleText(id: string) {
-        const array = this.props.listCard;
-        for (let i = 0; i < array.length; i++) {
-            array[i].flagTextArea = array[i].id === id ? true : false;
-        }
-        this.props.editCardStatus(array);
 
+    private toogleText(id: string) {
+        const array = this.props.listCard.map((item:any)=>{
+            if(item.id === id){
+                if(item.flagTextArea){
+                    item = {...item, flagTextArea: false};
+                }else{
+                    item = {...item, flagTextArea: true};
+                }
+            }
+            return item;
+        });
+    this.props.editCardStatus(array);
         // const token = this.getToken();
         // const text = 'Hello World'
         // const url = `https://api.trello.com/1/cards/${id}/name?value=${text}&key=${REACT_APP_API_KEY}&token=${token}`;
@@ -87,13 +93,10 @@ class ListCard extends React.Component<any> {
         // }
     }
 
-
-
-
     private createListItem() {
         return this.props.listCard.map((item: any, index: number) => {
             const styleTextArea = item.flagTextArea === true ? "TextAreaCard anable" : "TextAreaCard disable";
-            console.log(styleTextArea);
+           
             return item.idList === this.props.id ?
                 <div className="ItemListCard" key={index}>
                     <span>{item.name}</span>

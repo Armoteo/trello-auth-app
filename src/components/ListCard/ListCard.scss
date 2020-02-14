@@ -67,17 +67,20 @@ button{
    } 
 
    .TextAreaCard{
-    height: 100px;
     font-size: 1.2em;
     resize: vertical;
    }
 
    .TextAreaCard.disable{
-    display: none;
+    height: 1px;
+    z-index: -1;
+    transition: ease-in 0.5s;
    }
 
    .TextAreaCard.anable{
-    display: block;
+    height: 100px;
+    z-index: 1;
+    transition: ease-in 0.5s;
    }
    /*Цвет плейсхолдера*/
 ::-webkit-input-placeholder { /* Edge */
