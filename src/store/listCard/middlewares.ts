@@ -1,7 +1,7 @@
 import { subscribe, getFromLocalStorage } from '../../utils';
 import { ACTION_TYPES } from './types';
 import { request } from '../http';
-import { setBoards } from './actions';
+import { setBoards, editCardStatus } from './actions';
 
 const ID_BOARD_STRORAGE_KEY = "ID_BOARD";
 
@@ -33,17 +33,6 @@ const fetchBoardsWorker: any = ({
     })
   );
 };
-
-
-
-
-
-
-
-
-
-
-
 
 
 const fetchMiddleware = ({ dispatch }: any) => (next: any) =>
