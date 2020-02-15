@@ -26,3 +26,4 @@ export const editCardStatus = (data: Array<any>) => ({
   type: ACTION_TYPES.TOOGLE_EDIT,
   payload: data
 });
+

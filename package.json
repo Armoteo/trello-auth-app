@@ -22,7 +22,7 @@
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "typescript": "^3.7.5",
-    "yarn": "^1.21.1"
+    "yarn": "^1.22.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -50,6 +50,5 @@
     "@types/react-dom": "^16.9.4",
     "@types/react-redux": "^7.1.7",
     "@types/react-router-dom": "^5.1.3"
-
   }
 }
