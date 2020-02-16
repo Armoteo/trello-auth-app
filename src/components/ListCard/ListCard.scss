@@ -1,36 +1,4 @@
-.ListCard{
-    width: 350px;
-    height: 100%;
-    padding-top: 10px;
-    margin: 5px;
-    display: flex;
-    flex-direction: column;
-    background-color: rgba(100, 118, 135, 0.9);
-    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, .5);
-    border-radius: 10px;
-    }
 
-.HeaderListCard{
-    display: flex;
-    color: #e9e9e9;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-bottom: 2px solid #000;
-    p{
-        font-size: 1.2em;
-        font-weight: bold;
-        margin: 5px;
-    }
-    div{
-        width: 100%;
-        display: flex;
-        justify-content: flex-end;
-    }
-    button{
-        color: #e9e9e9;
-    }
-}
 
 .ItemListCard{
     font-size: 1.2em;

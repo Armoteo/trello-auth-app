@@ -22,7 +22,8 @@ const { REACT_APP_API_KEY } = process.env;
 class ListCard extends React.Component<any> {
 
 public state={
-    text: ''
+    text: '',
+    flafList:false
 }
 
 
@@ -87,24 +88,24 @@ public state={
             return item;
         });
         this.props.editCardStatus(array);
-        
-       
     }
 
     private textState(e:any){
         this.setState({text:e.target.value});
     }
 
-    private async setTextCards(id:string){
+
+    private async setTextCards(id:string, type:string){
     const token = this.getToken();
         const text = this.state.text;
-        const url = `https://api.trello.com/1/cards/${id}/name?value=${text}&key=${REACT_APP_API_KEY}&token=${token}`;
+        const url = `https://api.trello.com/1/${type}/${id}/name?value=${text}&key=${REACT_APP_API_KEY}&token=${token}`;
         const response = await fetch(url, {
             method: 'PUT'
         });
         if (response.ok === true && response.status === 200) {
             this.props.onFetchBoards!();
         }
+        
     }
 
     private createListItem() {
@@ -128,7 +129,7 @@ public state={
                         <button type="button" className={styleEdit} onClick={() => this.toogleText(item.id)}>
                             <i className="fas fa-pencil-alt"></i>
                         </button>
-                        <button type="button" className={styleSaveButton} onClick={()=>this.setTextCards(item.id)}>
+                        <button type="button" className={styleSaveButton} onClick={()=>this.setTextCards(item.id, 'cards')}>
                             <i className="fas fa-save"></i>
                         </button>
                     </div>
@@ -139,18 +140,7 @@ public state={
 
     render() {
         return (
-            <div className="ListCard" >
-                <div className="HeaderListCard">
-                    <div>
-                        <button type="button">
-                            <i className="fas fa-pencil-alt"></i>
-                        </button>
-                        <button type="button" className='Button-save'>
-                            <i className="fas fa-save"></i>
-                        </button>
-                    </div>
-                    <p>Name list: {this.props.name} </p>
-                </div>
+            <div>
                 {this.createListItem()}
             </div>
         )
