@@ -82,6 +82,18 @@ button{
     z-index: 1;
     transition: ease-in 0.5s;
    }
+
+
+    .anable{
+    display: block;
+    }
+    .disable{
+    display: none;
+    }
+
+
+
+
    /*Цвет плейсхолдера*/
 ::-webkit-input-placeholder { /* Edge */
     color: #bbbbbb;
