@@ -12,7 +12,8 @@ export interface RequestPayload<P = any> {
 export enum ACTION_TYPES {
     REQUEST = "@@HTTP/REQUEST",
     SUCCESS = "@@HTTP/SUCCESS",
-    ERROR = "@@HTTP/ERROR"
+    ERROR = "@@HTTP/ERROR",
+    REQUEST_PUT = "@@HTTP/REQUEST_PUT",
 };
 
 export interface ActionHttp<P = any> extends Action<ACTION_TYPES>,

@@ -5,3 +5,9 @@ export const request = (p: RequestPayload): ActionHttp => ({
     type: ACTION_TYPES.REQUEST,
     ...p
 });
+
+
+export const requestPUT = (p: RequestPayload): ActionHttp => ({
+    type: ACTION_TYPES.REQUEST_PUT,
+    ...p
+});

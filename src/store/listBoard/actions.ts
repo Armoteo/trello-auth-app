@@ -13,3 +13,9 @@ export const editListStatus = (data: Array<any>) => ({
   type: ACTION_TYPES.TOOGLE_EDIT_LIST,
   payload: data
 });
+
+// редактирования имени списка
+export const editListName = (data: Array<any>) => ({
+  type: ACTION_TYPES.SET_EDIT_LIST,
+  payload: data
+});

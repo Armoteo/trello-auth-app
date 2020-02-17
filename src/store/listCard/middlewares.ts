@@ -1,7 +1,7 @@
 import { subscribe, getFromLocalStorage } from '../../utils';
 import { ACTION_TYPES } from './types';
-import { request } from '../http';
-import { setBoards, editCardStatus } from './actions';
+import { request, requestPUT } from '../http';
+import { setBoards, editCardStatus, fetchBoards } from './actions';
 
 const ID_BOARD_STRORAGE_KEY = "ID_BOARD";
 
@@ -35,7 +35,65 @@ const fetchBoardsWorker: any = ({
 };
 
 
+const fetchCardNameWorker: any = ({
+  action,
+  next,
+  dispatch
+}: {
+  action: any;
+  next: any;
+  dispatch: any;
+}) => {
+
+  const { id, text } = action.payload;
+
+  dispatch(
+    requestPUT({
+      path: `/1/cards/${id}/name?value=${text}`,
+      authRequired: true,
+      onSuccess: () => {
+        dispatch(fetchBoards());
+      },
+      onError: error => {
+        console.log(error);
+      }
+    })
+  );
+};
+
+const fetchToogleListWorker: any = ({
+  action,
+  next,
+  dispatch
+}: {
+  action: any;
+  next: any;
+  dispatch: any;
+}) => {
+  const { idCard, idList } = action.payload;
+
+  dispatch(
+    requestPUT({
+      path: `/1/cards/${idCard}/idList?value=${idList}`,
+      authRequired: true,
+      onSuccess: () => {
+        dispatch(fetchBoards());
+      },
+      onError: error => {
+        console.log(error);
+      }
+    })
+  );
+};
+
+
 const fetchMiddleware = ({ dispatch }: any) => (next: any) =>
   subscribe(ACTION_TYPES.FETCH_LIST_CARD, fetchBoardsWorker)(next, dispatch);
 
-export const CardMiddleware = [fetchMiddleware];
+const fetchMiddlewareNameCard = ({ dispatch }: any) => (next: any) =>
+  subscribe(ACTION_TYPES.TOOGLE_TEXT, fetchCardNameWorker)(next, dispatch);
+
+const fetchMiddlewareToogleList = ({ dispatch }: any) => (next: any) =>
+  subscribe(ACTION_TYPES.TOOGLE_LIST, fetchToogleListWorker)(next, dispatch);
+
+export const CardMiddleware = [fetchMiddleware, fetchMiddlewareNameCard, fetchMiddlewareToogleList];
