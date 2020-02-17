@@ -7,14 +7,21 @@ import { AppState } from '../../store';
 
 
 interface ListCardsProps extends RouteChildrenProps {
-    token?: string;
-    name?: string;
     id?: string;
-    listBoard?: Array<any>;
+    lists?: Array<any>;
+    listCard?: Array<any>;
+
     onFetchBoards?: () => void;
+    toogleList?: (data: any) => void;
+    toogleText?: (data: any) => void;
+    editCardStatus?: (data: any) => void;
 }
 
-class ListCard extends React.Component<any> {
+interface stateCardsProps {
+    text?: string;
+}
+
+class ListCard extends React.Component<any, stateCardsProps> {
 
     public state = {
         text: ''
@@ -24,42 +31,34 @@ class ListCard extends React.Component<any> {
         this.props.onFetchBoards!();
     }
 
-    private toggleListCardRight(idCard: any, idList: any) {
-        const listID = this.genericIdList(idList, 'Right');
-
-        const text = { idCard: idCard, idList: listID };
-        this.props.toogleList(text);
-    }
-
-    private toggleListCardLeft(idCard: any, idList: any) {
-        const listID = this.genericIdList(idList, 'Left');
-
-        const text = { idCard: idCard, idList: listID };
-        this.props.toogleList(text);
+    private toggleListCard(idCard: string, idList: string, direction: string) {
+        const listID = direction === 'left' ? this.genericIdList(idList, 'Left') : this.genericIdList(idList, 'Right');
+        const toogleData = { idCard: idCard, idList: listID };
+        this.props.toogleList!(toogleData);
     }
 
 
     private genericIdList = (idList: string, action: string) => {
 
-        let indexItem = this.props.lists.findIndex((el: any) => el.id === idList);
+        let indexItem = this.props.lists!.findIndex((el: any) => el.id === idList);
 
-        if (indexItem < this.props.lists.length - 1 && action === 'Right') {
+        if (indexItem < this.props.lists!.length - 1 && action === 'Right') {
             indexItem = indexItem + 1;
-            return this.props.lists[indexItem].id;
-        } else if (indexItem <= this.props.lists.length - 1 && action === 'Left' && indexItem !== 0) {
+            return this.props.lists![indexItem].id;
+        } else if (indexItem <= this.props.lists!.length - 1 && action === 'Left' && indexItem !== 0) {
             indexItem = indexItem - 1;
-            return this.props.lists[indexItem].id;
+            return this.props.lists![indexItem].id;
         } else if (indexItem === 0 && action === 'Left') {
-            indexItem = this.props.lists.length - 1;
-            return this.props.lists[indexItem].id;
+            indexItem = this.props.lists!.length - 1;
+            return this.props.lists![indexItem].id;
         } else {
             indexItem = 0;
-            return this.props.lists[indexItem].id;
+            return this.props.lists![indexItem].id;
         }
     }
 
     private toogleFlag(id: string) {
-        const array = this.props.listCard.map((item: any) => {
+        const array = this.props.listCard!.map((item: any) => {
             if (item.id === id) {
                 if (item.flagTextArea) {
                     item = { ...item, flagTextArea: false };
@@ -69,7 +68,7 @@ class ListCard extends React.Component<any> {
             }
             return item;
         });
-        this.props.editCardStatus(array);
+        this.props.editCardStatus!(array);
     }
 
     private textState(e: any) {
@@ -77,7 +76,7 @@ class ListCard extends React.Component<any> {
     }
 
     private createListItem() {
-        return this.props.listCard.map((item: any, index: number) => {
+        return this.props.listCard!.map((item: any, index: number) => {
 
             const styleTextArea = item.flagTextArea === true ? "TextAreaCard anable" : "TextAreaCard disable";
             const styleSaveButton = item.flagTextArea === true ? "anable" : "disable";
@@ -89,16 +88,16 @@ class ListCard extends React.Component<any> {
                     <span>{item.name}</span>
                     <textarea className={styleTextArea} placeholder={item.name} onChange={(e) => this.textState(e)}></textarea>
                     <div>
-                        <button type="button" onClick={() => this.toggleListCardLeft(item.id, item.idList)}>
+                        <button type="button" onClick={() => this.toggleListCard(item.id, item.idList, 'left')}>
                             <i className="fas fa-arrow-left"></i>
                         </button>
-                        <button type="button" onClick={() => this.toggleListCardRight(item.id, item.idList)}>
+                        <button type="button" onClick={() => this.toggleListCard(item.id, item.idList, 'right')}>
                             <i className="fas fa-arrow-right"></i>
                         </button>
                         <button type="button" className={styleEdit} onClick={() => this.toogleFlag(item.id)}>
                             <i className="fas fa-pencil-alt"></i>
                         </button>
-                        <button type="button" className={styleSaveButton} onClick={() => this.props.toogleText(text)}>
+                        <button type="button" className={styleSaveButton} onClick={() => this.props.toogleText!(text)}>
                             <i className="fas fa-save"></i>
                         </button>
                     </div>

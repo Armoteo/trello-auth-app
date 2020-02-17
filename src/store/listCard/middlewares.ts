@@ -1,7 +1,7 @@
 import { subscribe, getFromLocalStorage } from '../../utils';
 import { ACTION_TYPES } from './types';
 import { request, requestPUT } from '../http';
-import { setBoards, editCardStatus, fetchBoards } from './actions';
+import { setBoards, fetchBoards } from './actions';
 
 const ID_BOARD_STRORAGE_KEY = "ID_BOARD";
 

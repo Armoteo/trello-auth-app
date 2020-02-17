@@ -8,17 +8,21 @@ import { ListCard } from '../ListCard';
 
 
 interface ListPageProps extends RouteChildrenProps {
-    token?: string;
     name?: string;
     id?: string;
     listBoard?: Array<any>;
     onFetchBoards?: () => void;
-    editListStatus?: () => void;
+    editListStatus?: (data: any) => void;
+    editListName?: (data: any) => void;
 }
 
-class ListBoard extends React.Component<any>{
+interface stateListProps {
+    text?: string;
+}
 
-    public state = {
+class ListBoard extends React.Component<ListPageProps>{
+
+    public state: stateListProps = {
         text: ''
     }
 
@@ -27,7 +31,7 @@ class ListBoard extends React.Component<any>{
     }
 
     private toogleText(id: string) {
-        const array = this.props.listBoard?.map((item: any) => {
+        const array = this.props.listBoard?.map((item) => {
             if (item.id === id) {
                 if (item.flagTextArea) {
                     item = { ...item, flagTextArea: false };
@@ -37,7 +41,7 @@ class ListBoard extends React.Component<any>{
             }
             return item;
         });
-        this.props.editListStatus(array);
+        this.props.editListStatus!(array);
     }
 
     private textState(e: any) {
@@ -45,7 +49,7 @@ class ListBoard extends React.Component<any>{
     };
 
     render() {
-        const createdListCard = this.props.listBoard!.map((item: any, index: number) => {
+        const createdListCard = this.props.listBoard!.map((item, index) => {
 
             const styleTextArea = item.flagTextArea === true ? "TextAreaCard anable" : "TextAreaCard disable";
             const styleSaveButton = item.flagTextArea === true ? "anable" : "disable";
@@ -53,24 +57,21 @@ class ListBoard extends React.Component<any>{
 
             const text = { id: item.id, text: this.state.text };
 
-            return (<div className="ListCard" key={index}>
+            return <div className="ListCard" key={index}>
                 <div className="HeaderListCard">
                     <div>
                         <button type="button" className={styleEdit} onClick={() => this.toogleText(item.id)}>
                             <i className="fas fa-pencil-alt"></i>
                         </button>
-                        <button type="button" className={styleSaveButton} onClick={() => this.props.editListName(text)}>
+                        <button type="button" className={styleSaveButton} onClick={() => this.props.editListName!(text)}>
                             <i className="fas fa-save"></i>
                         </button>
                     </div>
                     <p>Name list: {item.name} </p>
                     <textarea className={styleTextArea} placeholder={item.name} onChange={(e) => this.textState(e)}></textarea>
                 </div>
-                <ListCard
-                    id={item.id}
-                    name={item.name}
-                />
-            </div>)
+                <ListCard id={item.id} />
+            </div>
         }
         );
 
