@@ -48,6 +48,13 @@ class ListBoard extends React.Component<ListPageProps>{
         this.setState({ text: e.target.value });
     };
 
+    handleKeyPress = (e:any, text:any) => {
+        if (e.key === 'Enter') {
+            this.props.editListName!(text);
+        }
+    };
+
+
     render() {
         const createdListCard = this.props.listBoard!.map((item, index) => {
 
@@ -67,7 +74,7 @@ class ListBoard extends React.Component<ListPageProps>{
                             <i className="fas fa-save"></i>
                         </button>
                     </div>
-                    <p>Name list: {item.name} </p>
+                    <p onDoubleClick={() => this.toogleText(item.id)}>Name list: {item.name} </p>
                     <textarea className={styleTextArea} placeholder={item.name} onChange={(e) => this.textState(e)}></textarea>
                 </div>
                 <ListCard id={item.id} />

@@ -84,7 +84,7 @@ class ListCard extends React.Component<ListCardsProps, stateCardsProps> {
 
             return item.idList === this.props.id ?
                 <div className="ItemListCard" key={index}>
-                    <span>{item.name}</span>
+                    <span onDoubleClick={() => this.toogleFlag(item.id)}>{item.name}</span>
                     <textarea className={styleTextArea} placeholder={item.name} onChange={(e) => this.textState(e)}></textarea>
                     <div>
                         <button type="button" onClick={() => this.toggleListCard(item.id, item.idList, 'left')}>
