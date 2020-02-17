@@ -1,12 +1,11 @@
 import React from 'react';
 import './ListCard.scss';
-import { RouteChildrenProps } from 'react-router';
 import { fetchBoards, getBoards, getListBoards, toogleList, editCardStatus, toogleText } from '../../store/listCard';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 
 
-interface ListCardsProps extends RouteChildrenProps {
+interface ListCardsProps {
     id?: string;
     lists?: Array<any>;
     listCard?: Array<any>;
@@ -21,7 +20,7 @@ interface stateCardsProps {
     text?: string;
 }
 
-class ListCard extends React.Component<any, stateCardsProps> {
+class ListCard extends React.Component<ListCardsProps, stateCardsProps> {
 
     public state = {
         text: ''

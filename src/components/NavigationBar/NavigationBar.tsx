@@ -24,7 +24,7 @@ class NavigationBar extends React.Component<any>{
                     <Link to='/main'>Main</Link>
                     <Link to='/profile'>Profile</Link>
                 </div>
-                <button onClick={this.clearToken}>Logout<i className="fas fa-share-square"></i></button>
+               <Link to='/login'> <button onClick={this.clearToken}>Logout<i className="fas fa-share-square"></i></button></Link>
             </div >
         )
     }
