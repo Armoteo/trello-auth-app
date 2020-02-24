@@ -106,7 +106,7 @@ const mapDispatchToProps = (dispatch: any) => {
 const ConnectedListBoards = connect(mapStateToProps,
     mapDispatchToProps)(ListBoard);
 
-export { ConnectedListBoards as ListBoard };
+export {ConnectedListBoards as ListBoard};
 
 
 
