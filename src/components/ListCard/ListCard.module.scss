@@ -39,13 +39,13 @@ button{
     resize: vertical;
    }
 
-   .TextAreaCard.disable{
+   .TextAreaCardDisable{
     height: 1px;
     z-index: -1;
     transition: ease-in 0.5s;
    }
 
-   .TextAreaCard.anable{
+   .TextAreaCardAnable{
     height: 100px;
     z-index: 1;
     transition: ease-in 0.5s;

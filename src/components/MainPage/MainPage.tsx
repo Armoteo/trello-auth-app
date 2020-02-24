@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './MainPage.scss';
+import style from './MainPage.module.scss';
 import { RouteChildrenProps } from 'react-router';
 import { BoardComponent } from '../BoardComponent';
 import { connect } from 'react-redux';
@@ -27,7 +27,7 @@ class MainPage extends React.Component<MainPageProps> {
     );
 
     return (
-      <div className="MainPage">
+      <div className={style.MainPage}>
         {createdBoard}
       </div>
     )

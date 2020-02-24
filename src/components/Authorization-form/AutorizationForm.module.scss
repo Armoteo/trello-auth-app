@@ -18,6 +18,13 @@
         text-align: center;
         color: #fff;
       }
+      a{
+          color: #fff;
+          text-decoration: none;
+          &:hover{
+            color:purple;
+          }
+      }
   }
 
   .ContainerAuthForm{

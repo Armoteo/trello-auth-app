@@ -1,9 +1,9 @@
 import React from 'react';
-import './Button.scss';
+import style from './Button.module.scss';
 
 export const Button = (props: any) => {
 
     return (
-        <a href={props.href} className='Button'>{props.children}</a>
+        <a href={props.href} className={style.Button}>{props.children}</a>
     )
 }

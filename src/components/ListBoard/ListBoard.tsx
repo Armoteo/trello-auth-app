@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './ListBoard.scss';
+import style from './ListBoard.module.scss';
 import { RouteChildrenProps } from 'react-router';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
@@ -58,14 +58,18 @@ class ListBoard extends React.Component<ListPageProps>{
     render() {
         const createdListCard = this.props.listBoard!.map((item, index) => {
 
-            const styleTextArea = item.flagTextArea === true ? "TextAreaCard anable" : "TextAreaCard disable";
-            const styleSaveButton = item.flagTextArea === true ? "anable" : "disable";
-            const styleEdit = item.flagTextArea === true ? "disable" : "anable";
-
+            const styleTextArea:any = [style.TextAreaCard];
+            if(item.flagTextArea){
+                styleTextArea.push(style.TextAreaAnable);
+            }else{
+                styleTextArea.push(style.TextAreaDisable);
+            }
+            const styleSaveButton = item.flagTextArea === true ? style.anable : style.disable;
+            const styleEdit = item.flagTextArea === true ? style.disable : style.anable;
             const text = { id: item.id, text: this.state.text };
 
-            return <div className="ListCard" key={index}>
-                <div className="HeaderListCard">
+            return <div className={style.ListCard} key={index}>
+                <div className={style.HeaderListCard}>
                     <div>
                         <button type="button" className={styleEdit} onClick={() => this.toogleText(item.id)}>
                             <i className="fas fa-pencil-alt"></i>
@@ -75,7 +79,7 @@ class ListBoard extends React.Component<ListPageProps>{
                         </button>
                     </div>
                     <p onDoubleClick={() => this.toogleText(item.id)}>Name list: {item.name} </p>
-                    <textarea className={styleTextArea} placeholder={item.name} onChange={(e) => this.textState(e)}></textarea>
+                    <textarea className={styleTextArea.join(' ')} placeholder={item.name} onChange={(e) => this.textState(e)}></textarea>
                 </div>
                 <ListCard id={item.id} />
             </div>
@@ -83,7 +87,7 @@ class ListBoard extends React.Component<ListPageProps>{
         );
 
         return (
-            <div className="ListBoard">
+            <div className={style.ListBoard}>
                 {createdListCard}
             </div>
         )

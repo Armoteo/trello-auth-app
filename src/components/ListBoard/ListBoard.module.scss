@@ -1,5 +1,6 @@
 .ListBoard{
 display: flex;
+flex-wrap: wrap;
 justify-content: space-evenly;
 }
 
@@ -36,3 +37,27 @@ justify-content: space-evenly;
         color: #e9e9e9;
     }
 }
+
+.TextAreaCard{
+    font-size: 1.2em;
+    resize: vertical;
+   }
+
+   .TextAreaDisable{
+    height: 1px;
+    z-index: -1;
+    transition: ease-in 0.5s;
+   }
+
+   .TextAreaAnable{
+    height: 100px;
+    z-index: 1;
+    transition: ease-in 0.5s;
+   }
+
+    .anable{
+    display: block;
+    }
+    .disable{
+    display: none;
+    }

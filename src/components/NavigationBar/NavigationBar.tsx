@@ -1,26 +1,21 @@
 import React from 'react';
-import './NavigationBar.scss';
+import style from './NavigationBar.module.scss';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { deleteToken } from "../../store/auth";
 import { setToLocalStorage } from '../../utils';
 
-
-
 const APP_TOKEN = 'TREELLO_CUSTOM_APP_TOKEN';
 
 class NavigationBar extends React.Component<any>{
-
-
     private clearToken = () => {
         setToLocalStorage(APP_TOKEN, '');
         this.props.deleteToken();
     };
-
     render() {
         return (
-            <div className='NavigationBar'>
-                <div className='ContainerNav'>
+            <div className={style.NavigationBar}>
+                <div className={style.ContainerNav}>
                     <Link to='/main'>Main</Link>
                     <Link to='/profile'>Profile</Link>
                 </div>

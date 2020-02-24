@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './ProfilePage.scss';
-import { getBoards, fetchBoards } from '../../store/profile';
+import style from './ProfilePage.module.scss';
+import { getBoards, fetchProfile } from '../../store/profile';
 import { AppState } from '../../store';
 import { RouteChildrenProps } from 'react-router';
 import { connect } from 'react-redux';
@@ -14,13 +14,13 @@ interface ProfilePageProps extends RouteChildrenProps {
         email?:string,
         url?:string,
     },
-    onFetchBoards?: () => void;
+    onFetchProfile?: () => void;
   }
 
  class ProfilePage extends Component<ProfilePageProps> {
-
+     
     componentDidMount() {
-        this.props.onFetchBoards!();   
+        this.props.onFetchProfile!();   
     }
 
     private renderHeaderProfile() {
@@ -28,17 +28,16 @@ interface ProfilePageProps extends RouteChildrenProps {
         const alt = 'AVATAR';
         const name = this.props.profile!.username ? this.props.profile!.username : this.props.profile!.fullName;
         return (
-            <div className='ProfileHeader'>
+            <div className={style.ProfileHeader}>
                 <img src={urlVatar} alt={alt} ></img>
                 <h3>{name}</h3>
             </div>
         )
     }
 
-
     private renderContentProfile() {
         return (
-            <div className="PrifileContent">
+            <div className={style.PrifileContent}>
                 <span>Mail: {this.props.profile!.email}</span>
                 <span>Fulname: {this.props.profile!.fullName} </span>
                 <span>User Name: {this.props.profile!.username} </span>
@@ -65,7 +64,7 @@ const mapStateToProps = (state: AppState) => {
   
   const mapDispatchToProps = (dispatch: any) => {
     return {
-      onFetchBoards: () => dispatch(fetchBoards())
+      onFetchProfile: () => dispatch(fetchProfile())
     };
   };
   const ConnectedProfilePage = connect(mapStateToProps,

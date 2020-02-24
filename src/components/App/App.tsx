@@ -19,10 +19,7 @@ interface AppState {
     userProfile: any;
 }
 
-
-interface AppProps extends RouteComponentProps {
-
-}
+interface AppProps extends RouteComponentProps {}
 
 const INITIAL_STATE = {
     token: '',
@@ -70,10 +67,8 @@ class App extends React.Component<AppProps, AppState> {
     }
 }
 
-
 const mapDispatchProps = (dispatch: any) => {
     return {
-
     };
 };
 

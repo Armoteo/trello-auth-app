@@ -1,5 +1,5 @@
 import React from 'react';
-import './ListCard.scss';
+import style from './ListCard.module.scss';
 import { fetchBoards, getBoards, getListBoards, toogleList, editCardStatus, toogleText } from '../../store/listCard';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
@@ -77,16 +77,21 @@ class ListCard extends React.Component<ListCardsProps, stateCardsProps> {
     private createListItem() {
         return this.props.listCard!.map((item: any, index: number) => {
 
-            const styleTextArea = item.flagTextArea === true ? "TextAreaCard anable" : "TextAreaCard disable";
-            const styleSaveButton = item.flagTextArea === true ? "anable" : "disable";
-            const styleEdit = item.flagTextArea === true ? "disable" : "anable";
+            const styleTextArea:any = [style.TextAreaCard];
+            if(item.flagTextArea){
+                styleTextArea.push(style.TextAreaCardAnable);
+            }else{
+                styleTextArea.push(style.TextAreaCardDisable);
+            }
+            const styleSaveButton = item.flagTextArea === true ? style.anable : style.disable;
+            const styleEdit = item.flagTextArea === true ? style.disable : style.anable;
             const text = { id: item.id, text: this.state.text };
 
             return item.idList === this.props.id ?
-                <div className="ItemListCard" key={index}>
+                <div className={style.ItemListCard} key={index}>
                     <span onDoubleClick={() => this.toogleFlag(item.id)}>{item.name}</span>
                     <textarea 
-                    className={styleTextArea} 
+                    className={styleTextArea.join(' ')} 
                     placeholder={item.name} 
                     onChange={(e) => this.textState(e)}
                     >

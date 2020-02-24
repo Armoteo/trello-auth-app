@@ -8,7 +8,7 @@ import boards, { boardsMiddleware } from './mainPage';
 import listBoard, { ListsMiddleware } from './listBoard';
 import profile, { profileMiddleware } from './profile';
 import listCard, { CardMiddleware } from './listCard';
-
+import thunk from 'redux-thunk';
 
 export interface AppState {
     auth: AuthState;
@@ -40,6 +40,7 @@ export default function configureStore(history: History) {
         undefined,
         composeEnhancers(
             applyMiddleware(
+                thunk,
                 ...middlewaresAuth,
                 ...httpMiddlewares,
                 ...initMiddleware,
