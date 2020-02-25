@@ -1,4 +1,3 @@
-// import uuid from 'uuid/v4';
 import { ACTION_TYPES } from './types';
 import { Worker, subscribe } from '../../utils';
 import { getToken } from '../auth';
@@ -11,7 +10,6 @@ const makeUrl = (path: string, authRequired: boolean, token: string) => {
     if (authRequired && token) {
         url = url + `&token=${token}`;
     }
-
     return url;
 };
 
@@ -35,7 +33,6 @@ const makeUrlPOST = (path: string, authRequired: boolean, token: string) => {
 
 //GET
 export const requestWorker: Worker<any> = async ({ action, next, getState }) => {
-    // const requestId = uuid();
     const { path, onSuccess, method = "GET", authRequired } = action;
     const appState = getState!();
     const token = getToken(appState);

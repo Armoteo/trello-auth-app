@@ -1,6 +1,6 @@
 import { ACTION_TYPES } from './types';
 //запрос на сервер
-export const fetchBoards = () => ({
+export const fetchBoardsCard = () => ({
   type: ACTION_TYPES.FETCH_LIST_CARD
 });
 //храним ответ с сервера

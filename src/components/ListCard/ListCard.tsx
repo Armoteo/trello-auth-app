@@ -1,16 +1,15 @@
 import React from 'react';
 import style from './ListCard.module.scss';
-import { fetchBoards, getBoards, getListBoards, toogleList, editCardStatus, toogleText } from '../../store/listCard';
+import { getBoards, getListBoards, toogleList, editCardStatus, toogleText, fetchBoardsCard } from '../../store/listCard';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
-
 
 interface ListCardsProps {
     id?: string;
     lists?: Array<any>;
     listCard?: Array<any>;
 
-    onFetchBoards?: () => void;
+    fetchBoardsCard?: () => void;
     toogleList?: (data: any) => void;
     toogleText?: (data: any) => void;
     editCardStatus?: (data: any) => void;
@@ -18,6 +17,7 @@ interface ListCardsProps {
 
 interface stateCardsProps {
     text?: string;
+
 }
 
 class ListCard extends React.Component<ListCardsProps, stateCardsProps> {
@@ -27,7 +27,7 @@ class ListCard extends React.Component<ListCardsProps, stateCardsProps> {
     }
 
     componentDidMount() {
-        this.props.onFetchBoards!();
+        this.props.fetchBoardsCard!();
     }
 
     private toggleListCard(idCard: string, idList: string, direction: string) {
@@ -77,24 +77,24 @@ class ListCard extends React.Component<ListCardsProps, stateCardsProps> {
     private createListItem() {
         return this.props.listCard!.map((item: any, index: number) => {
 
-            const styleTextArea:any = [style.TextAreaCard];
-            if(item.flagTextArea){
+            const styleTextArea: any = [style.TextAreaCard];
+            if (item.flagTextArea) {
                 styleTextArea.push(style.TextAreaCardAnable);
-            }else{
+            } else {
                 styleTextArea.push(style.TextAreaCardDisable);
             }
             const styleSaveButton = item.flagTextArea === true ? style.anable : style.disable;
             const styleEdit = item.flagTextArea === true ? style.disable : style.anable;
-            
+
             const text = { id: item.id, text: this.state.text };
 
             return item.idList === this.props.id ?
                 <div className={style.ItemListCard} key={index}>
                     <span onDoubleClick={() => this.toogleFlag(item.id)}>{item.name}</span>
-                    <textarea 
-                    className={styleTextArea.join(' ')} 
-                    placeholder={item.name} 
-                    onChange={(e) => this.textState(e)}
+                    <textarea
+                        className={styleTextArea.join(' ')}
+                        placeholder={item.name}
+                        onChange={(e) => this.textState(e)}
                     >
                     </textarea>
                     <div>
@@ -125,7 +125,6 @@ class ListCard extends React.Component<ListCardsProps, stateCardsProps> {
     }
 }
 
-
 const mapStateToProps = (state: AppState) => {
     return {
         listCard: getBoards(state),
@@ -135,7 +134,7 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        onFetchBoards: () => dispatch(fetchBoards()),
+        fetchBoardsCard: () => dispatch(fetchBoardsCard()),
         toogleList: (data: any) => dispatch(toogleList(data)),
         toogleText: (data: any) => dispatch(toogleText(data)),
         editCardStatus: (data: any) => dispatch(editCardStatus(data))

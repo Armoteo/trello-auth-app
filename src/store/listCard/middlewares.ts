@@ -1,7 +1,7 @@
 import { subscribe, getFromLocalStorage } from '../../utils';
 import { ACTION_TYPES } from './types';
 import { request, requestPUT } from '../http';
-import { setBoards, fetchBoards } from './actions';
+import { setBoards, fetchBoardsCard } from './actions';
 
 const ID_BOARD_STRORAGE_KEY = "ID_BOARD";
 
@@ -52,7 +52,7 @@ const fetchCardNameWorker: any = ({
       path: `/1/cards/${id}/name?value=${text}`,
       authRequired: true,
       onSuccess: () => {
-        dispatch(fetchBoards());
+        dispatch(fetchBoardsCard());
       },
       onError: error => {
         console.log(error);
@@ -77,7 +77,7 @@ const fetchToogleListWorker: any = ({
       path: `/1/cards/${idCard}/idList?value=${idList}`,
       authRequired: true,
       onSuccess: () => {
-        dispatch(fetchBoards());
+        dispatch(fetchBoardsCard());
       },
       onError: error => {
         console.log(error);

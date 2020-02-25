@@ -5,11 +5,13 @@ import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { fetchBoards, getBoards, editListStatus, editListName, createNewCard } from '../../store/listBoard';
 import { ListCard } from '../ListCard';
+import { SubmitCard } from '../SubmitCard';
 
 interface ListPageProps extends RouteChildrenProps {
     name?: string;
     id?: string;
     listBoard?: Array<any>;
+
     onFetchBoards?: () => void;
     editListStatus?: (data: any) => void;
     editListName?: (data: any) => void;
@@ -18,12 +20,19 @@ interface ListPageProps extends RouteChildrenProps {
 
 interface stateListProps {
     text?: string;
+    statusSubmit?: boolean;
+    id?: string;
+    textCard?: string;
+
 }
 
 class ListBoard extends React.Component<ListPageProps>{
 
     public state: stateListProps = {
-        text: ''
+        text: '',
+        statusSubmit: false,
+        id: '',
+        textCard: ''
     }
 
     componentDidMount() {
@@ -48,23 +57,42 @@ class ListBoard extends React.Component<ListPageProps>{
         this.setState({ text: e.target.value });
     };
 
-    private createNewCard = (id: string) => {
-        console.log('first');
-        const textCard = 'I am live!!!';
-        const text = { id: id, text: textCard };
-        this.props.createNewCard!(text);
+    private textStateCreate = (e: any) => {
+        this.setState({ textCard: e.target.value });
     };
 
+    private createSubmit() {
+        return (
+            <SubmitCard
+                createNewCard={this.createNewCard}
+                unCreateCard={this.unCreateCard}
+                textStateCreate={this.textStateCreate}
+            />
+        )
+    }
 
-    // handleKeyPress = (e: any, text: any) => {
-    //     if (e.key === 'Enter') {
-    //         this.props.editListName!(text);
-    //     }
-    // };
+    private openSubmit(id: string) {
+        this.setState(() => {
+            return {
+                statusSubmit: !this.state.statusSubmit,
+                id: id
+            }
+        });
+
+    }
+
+    private createNewCard = () => {
+        this.setState({ statusSubmit: !this.state.statusSubmit });
+        let textNewCard = { id: this.state.id, text: this.state.textCard };
+        this.props.createNewCard!(textNewCard);
+    };
+
+    private unCreateCard = () => {
+        this.setState({ statusSubmit: !this.state.statusSubmit });
+    }
 
     render() {
         const createdListCard = this.props.listBoard!.map((item, index) => {
-
             const styleTextArea: any = [style.TextAreaCard];
             if (item.flagTextArea) {
                 styleTextArea.push(style.TextAreaAnable);
@@ -78,7 +106,7 @@ class ListBoard extends React.Component<ListPageProps>{
             return <div className={style.ListCard} key={index}>
                 <div className={style.HeaderListCard}>
                     <div>
-                        <button type="button" onClick={() => this.createNewCard(item.id)}>
+                        <button type="button" onClick={() => this.openSubmit(item.id)}>
                             <i className="fas fa-plus-square"></i>
                         </button>
                         <button type="button" className={styleEdit} onClick={() => this.toogleText(item.id)}>
@@ -99,6 +127,7 @@ class ListBoard extends React.Component<ListPageProps>{
         return (
             <div className={style.ListBoard}>
                 {createdListCard}
+                {this.state.statusSubmit ? this.createSubmit() : null}
             </div>
         )
     }
