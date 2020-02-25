@@ -53,11 +53,11 @@ class ListBoard extends React.Component<ListPageProps>{
         this.props.editListStatus!(array);
     }
 
-    private textState(e: any) {
+    private textState(e: React.ChangeEvent<HTMLTextAreaElement>) {
         this.setState({ text: e.target.value });
     };
 
-    private textStateCreate = (e: any) => {
+    private textStateCreate = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         this.setState({ textCard: e.target.value });
     };
 

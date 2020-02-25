@@ -70,9 +70,9 @@ class ListCard extends React.Component<ListCardsProps, stateCardsProps> {
         this.props.editCardStatus!(array);
     }
 
-    private textState(e: any) {
+    private textState = (e: React.ChangeEvent<HTMLTextAreaElement>) =>{
         this.setState({ text: e.target.value });
-    }
+    };
 
     private createListItem() {
         return this.props.listCard!.map((item: any, index: number) => {
@@ -94,7 +94,8 @@ class ListCard extends React.Component<ListCardsProps, stateCardsProps> {
                     <textarea
                         className={styleTextArea.join(' ')}
                         placeholder={item.name}
-                        onChange={(e) => this.textState(e)}
+                        onChange={this.textState}
+                    
                     >
                     </textarea>
                     <div>
