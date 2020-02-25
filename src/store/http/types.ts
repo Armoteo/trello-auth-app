@@ -14,6 +14,7 @@ export enum ACTION_TYPES {
     SUCCESS = "@@HTTP/SUCCESS",
     ERROR = "@@HTTP/ERROR",
     REQUEST_PUT = "@@HTTP/REQUEST_PUT",
+    REQUEST_POST = "@@HTTP/REQUEST_POST",
 };
 
 export interface ActionHttp<P = any> extends Action<ACTION_TYPES>,

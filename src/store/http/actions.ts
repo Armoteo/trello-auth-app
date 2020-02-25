@@ -6,8 +6,12 @@ export const request = (p: RequestPayload): ActionHttp => ({
     ...p
 });
 
-
 export const requestPUT = (p: RequestPayload): ActionHttp => ({
     type: ACTION_TYPES.REQUEST_PUT,
+    ...p
+});
+
+export const requestPOST = (p: RequestPayload): ActionHttp => ({
+    type: ACTION_TYPES.REQUEST_POST,
     ...p
 });

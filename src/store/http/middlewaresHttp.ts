@@ -20,13 +20,20 @@ const makeUrlPUT = (path: string, authRequired: boolean, token: string) => {
     if (authRequired && token) {
         url = url + `&token=${token}`;
     }
+    return url;
+};
 
+const makeUrlPOST = (path: string, authRequired: boolean, token: string) => {
+    let url = REACT_APP_API_DOMAIN + path + `&key=${REACT_APP_API_KEY}`;
+    if (authRequired && token) {
+        url = url + `&token=${token}`;
+    }
     return url;
 };
 
 
 
-
+//GET
 export const requestWorker: Worker<any> = async ({ action, next, getState }) => {
     // const requestId = uuid();
     const { path, onSuccess, method = "GET", authRequired } = action;
@@ -48,7 +55,7 @@ export const requestWorker: Worker<any> = async ({ action, next, getState }) => 
     onSuccess(data);
 };
 
-
+//PUT
 export const requestWorkerPUT: Worker<any> = async ({ action, next, getState }) => {
     const { path, onSuccess, method = "PUT", authRequired } = action;
     const appState = getState!();
@@ -66,6 +73,24 @@ export const requestWorkerPUT: Worker<any> = async ({ action, next, getState }) 
     onSuccess();
 };
 
+//POST
+export const requestWorkerPOST: Worker<any> = async ({ action, next, getState }) => {
+    const { path, onSuccess, method = "POST", authRequired } = action;
+    const appState = getState!();
+    const token = getToken(appState);
+
+    const options: any = {
+        method, headers: {
+            Accept: 'application/json', 'Content-Type': 'application/json',
+        }
+    };
+    const response = await fetch(makeUrlPOST(path, authRequired, token), options);
+    if (response.status >= 400) {
+        console.log("ERRR")
+    }
+    onSuccess();
+};
+
 
 const requestMiddlewaresHttp = ({ dispatch, getState }: any) =>
     (next: any) =>
@@ -77,8 +102,13 @@ const requestMiddlewaresHttpPUT = ({ dispatch, getState }: any) =>
         subscribe(ACTION_TYPES.REQUEST_PUT, requestWorkerPUT)(next,
             dispatch, getState);
 
+const requestMiddlewaresHttpPOST = ({ dispatch, getState }: any) =>
+    (next: any) =>
+        subscribe(ACTION_TYPES.REQUEST_POST, requestWorkerPOST)(next,
+            dispatch, getState);
 
-export const httpMiddlewares = [requestMiddlewaresHttp, requestMiddlewaresHttpPUT];
+
+export const httpMiddlewares = [requestMiddlewaresHttp, requestMiddlewaresHttpPUT, requestMiddlewaresHttpPOST];
 
 
 

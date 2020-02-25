@@ -1,6 +1,6 @@
 import { subscribe, getFromLocalStorage } from '../../utils';
 import { ACTION_TYPES } from './types';
-import { request, requestPUT } from '../http';
+import { request, requestPUT, requestPOST } from '../http';
 import { setBoards, fetchBoards } from './actions';
 
 const ID_BOARD_STRORAGE_KEY = "ID_BOARD";
@@ -62,6 +62,32 @@ const fetchListNameWorker: any = ({
   );
 };
 
+const fetchCreateNewCardWorker: any = ({
+  action,
+  next,
+  dispatch
+}: {
+  action: any;
+  next: any;
+  dispatch: any;
+}) => {
+
+  const { id, text } = action.payload;
+
+  dispatch(
+    requestPOST({
+      path: `/1/cards?name=${text}&idList=${id}&keepFromSource=all`,
+      authRequired: true,
+      onSuccess: () => {
+        dispatch(fetchBoards());
+      },
+      onError: error => {
+        console.log(error);
+      }
+    })
+  );
+};
+
 
 const fetchMiddleware = ({ dispatch }: any) => (next: any) =>
   subscribe(ACTION_TYPES.FETCH_LIST, fetchBoardsWorker)(next, dispatch);
@@ -69,4 +95,8 @@ const fetchMiddleware = ({ dispatch }: any) => (next: any) =>
 const fetchMiddlewareNameList = ({ dispatch }: any) => (next: any) =>
   subscribe(ACTION_TYPES.SET_EDIT_LIST, fetchListNameWorker)(next, dispatch);
 
-export const ListsMiddleware = [fetchMiddleware, fetchMiddlewareNameList];
+const fetchMiddlewareCreateNewCard = ({ dispatch }: any) => (next: any) =>
+  subscribe(ACTION_TYPES.CREATE_NEW_CARD, fetchCreateNewCardWorker)(next, dispatch);
+
+
+export const ListsMiddleware = [fetchMiddleware, fetchMiddlewareNameList, fetchMiddlewareCreateNewCard];

@@ -19,3 +19,9 @@ export const editListName = (data: Array<any>) => ({
   type: ACTION_TYPES.SET_EDIT_LIST,
   payload: data
 });
+
+// создаем новую карточку
+export const createNewCard = (data: Array<any>) => ({
+  type: ACTION_TYPES.CREATE_NEW_CARD,
+  payload: data
+});

@@ -85,6 +85,7 @@ class ListCard extends React.Component<ListCardsProps, stateCardsProps> {
             }
             const styleSaveButton = item.flagTextArea === true ? style.anable : style.disable;
             const styleEdit = item.flagTextArea === true ? style.disable : style.anable;
+            
             const text = { id: item.id, text: this.state.text };
 
             return item.idList === this.props.id ?
