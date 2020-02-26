@@ -53,7 +53,7 @@ class ListBoard extends React.Component<ListPageProps>{
         this.props.editListStatus!(array);
     }
 
-    private textState(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    private textState = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         this.setState({ text: e.target.value });
     };
 
@@ -61,7 +61,7 @@ class ListBoard extends React.Component<ListPageProps>{
         this.setState({ textCard: e.target.value });
     };
 
-    private createSubmit() {
+    private createSubmit = () =>{
         return (
             <SubmitCard
                 createNewCard={this.createNewCard}
@@ -71,7 +71,7 @@ class ListBoard extends React.Component<ListPageProps>{
         )
     }
 
-    private openSubmit(id: string) {
+    private openSubmit = (id: string) => {
         this.setState(() => {
             return {
                 statusSubmit: !this.state.statusSubmit,
@@ -92,7 +92,8 @@ class ListBoard extends React.Component<ListPageProps>{
     }
 
     render() {
-        const createdListCard = this.props.listBoard!.map((item, index) => {
+        const {listBoard, editListName} = this.props;
+        const createdListCard = listBoard!.map((item, index) => {
             const styleTextArea: any = [style.TextAreaCard];
             if (item.flagTextArea) {
                 styleTextArea.push(style.TextAreaAnable);
@@ -112,12 +113,12 @@ class ListBoard extends React.Component<ListPageProps>{
                         <button type="button" className={styleEdit} onClick={() => this.toogleText(item.id)}>
                             <i className="fas fa-pencil-alt"></i>
                         </button>
-                        <button type="button" className={styleSaveButton} onClick={() => this.props.editListName!(text)}>
+                        <button type="button" className={styleSaveButton} onClick={() => editListName!(text)}>
                             <i className="fas fa-save"></i>
                         </button>
                     </div>
                     <p onDoubleClick={() => this.toogleText(item.id)}>Name list: {item.name} </p>
-                    <textarea className={styleTextArea.join(' ')} placeholder={item.name} onChange={(e) => this.textState(e)}></textarea>
+                    <textarea className={styleTextArea.join(' ')} placeholder={item.name} onChange={this.textState}></textarea>
                 </div>
                 <ListCard id={item.id} />
             </div>

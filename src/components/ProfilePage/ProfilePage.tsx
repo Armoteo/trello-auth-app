@@ -24,9 +24,10 @@ interface ProfilePageProps extends RouteChildrenProps {
     }
 
     private renderHeaderProfile() {
-        const urlVatar = `${this.props.profile!.avatarUrl}/170.png`;
+        const {avatarUrl, username, fullName} = this.props.profile!;
+        const urlVatar = `${avatarUrl}/170.png`;
         const alt = 'AVATAR';
-        const name = this.props.profile!.username ? this.props.profile!.username : this.props.profile!.fullName;
+        const name = username ? username : fullName;
         return (
             <div className={style.ProfileHeader}>
                 <img src={urlVatar} alt={alt} ></img>
@@ -36,12 +37,13 @@ interface ProfilePageProps extends RouteChildrenProps {
     }
 
     private renderContentProfile() {
+        const {email,fullName, username, url } = this.props.profile!;
         return (
             <div className={style.PrifileContent}>
-                <span>Mail: {this.props.profile!.email}</span>
-                <span>Fulname: {this.props.profile!.fullName} </span>
-                <span>User Name: {this.props.profile!.username} </span>
-                <span><a href={this.props.profile!.url}>Profile</a></span>
+                <span>Mail: {email}</span>
+                <span>Fulname: {fullName} </span>
+                <span>User Name: {username} </span>
+                <span><a href={url}>Profile</a></span>
             </div>)
     }
 

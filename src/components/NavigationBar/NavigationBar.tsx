@@ -5,12 +5,16 @@ import { connect } from 'react-redux';
 import { deleteToken } from "../../store/auth";
 import { setToLocalStorage } from '../../utils';
 
+interface NavProps{
+    deleteToken?: () => void;
+}
 const APP_TOKEN = 'TREELLO_CUSTOM_APP_TOKEN';
 
-class NavigationBar extends React.Component<any>{
+class NavigationBar extends React.Component<NavProps>{
+    
     private clearToken = () => {
         setToLocalStorage(APP_TOKEN, '');
-        this.props.deleteToken();
+        this.props.deleteToken!();
     };
     render() {
         return (
@@ -24,7 +28,6 @@ class NavigationBar extends React.Component<any>{
         )
     }
 }
-
 const mapDispatchProps = (dispatch: any) => {
     return {
         deleteToken: () => dispatch(deleteToken())
