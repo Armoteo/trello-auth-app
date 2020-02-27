@@ -3,11 +3,13 @@ import style from './ListCard.module.scss';
 import { getBoards, getListBoards, toogleList, editCardStatus, toogleText, fetchBoardsCard } from '../../store/listCard';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
+import { ListProps, ListCardProps } from '../models';
+
 
 interface ListCardsProps {
     id?: string;
-    lists?: Array<any>;
-    listCard?: Array<any>;
+    lists?: Array<ListProps>;
+    listCard?: Array<ListCardProps>;
 
     fetchBoardsCard?: () => void;
     toogleList?: (data: any) => void;

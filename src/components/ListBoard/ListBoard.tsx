@@ -6,11 +6,16 @@ import { AppState } from '../../store';
 import { fetchBoards, getBoards, editListStatus, editListName, createNewCard } from '../../store/listBoard';
 import { ListCard } from '../ListCard';
 import { SubmitCard } from '../SubmitCard';
+import { ListBoardProps } from '../models';
+
+interface ListBoardPropsNew extends ListBoardProps{
+    flagTextArea?:boolean;
+}
 
 interface ListPageProps extends RouteChildrenProps {
     name?: string;
     id?: string;
-    listBoard?: Array<any>;
+    listBoard?: Array<ListBoardPropsNew>;
 
     onFetchBoards?: () => void;
     editListStatus?: (data: any) => void;
@@ -23,7 +28,7 @@ interface stateListProps {
     statusSubmit?: boolean;
     id?: string;
     textCard?: string;
-
+    
 }
 
 class ListBoard extends React.Component<ListPageProps>{
@@ -107,17 +112,17 @@ class ListBoard extends React.Component<ListPageProps>{
             return <div className={style.ListCard} key={index}>
                 <div className={style.HeaderListCard}>
                     <div>
-                        <button type="button" onClick={() => this.openSubmit(item.id)}>
+                        <button type="button" onClick={() => this.openSubmit(item.id!)}>
                             <i className="fas fa-plus-square"></i>
                         </button>
-                        <button type="button" className={styleEdit} onClick={() => this.toogleText(item.id)}>
+                        <button type="button" className={styleEdit} onClick={() => this.toogleText(item.id!)}>
                             <i className="fas fa-pencil-alt"></i>
                         </button>
                         <button type="button" className={styleSaveButton} onClick={() => editListName!(text)}>
                             <i className="fas fa-save"></i>
                         </button>
                     </div>
-                    <p onDoubleClick={() => this.toogleText(item.id)}>Name list: {item.name} </p>
+                    <p onDoubleClick={() => this.toogleText(item.id!)}>Name list: {item.name} </p>
                     <textarea className={styleTextArea.join(' ')} placeholder={item.name} onChange={this.textState}></textarea>
                 </div>
                 <ListCard id={item.id} />
